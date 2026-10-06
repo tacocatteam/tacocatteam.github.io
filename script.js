@@ -27,7 +27,7 @@ function createQuiz(rootId,sourceQuestions,type){let questions=prepareQuestions(
 createQuiz('detective-game',detectiveQuestions,'detective');createQuiz('knowledge-game',knowledgeQuestions,'knowledge');
 document.querySelectorAll('.learn-more').forEach(btn=>btn.addEventListener('click',()=>{const card=btn.closest('.quality-card');card.classList.toggle('open');btn.setAttribute('aria-expanded',card.classList.contains('open'))}));
 const sensorModal=document.getElementById('sensor-monitor-modal'),monitorDialog=sensorModal?.querySelector('.monitor-dialog'),monitorClose=sensorModal?.querySelector('.monitor-close');let monitorTrigger=null;
-function openMonitor(sensor){if(!sensorModal)return;monitorTrigger=document.activeElement;const frame=sensorModal.querySelector('.monitor-frame');if(frame)frame.src=`water-quality-monitor.html#${sensor}`;sensorModal.hidden=false;document.body.classList.add('modal-open');monitorClose.focus()}
+function openMonitor(sensor){if(!sensorModal)return;monitorTrigger=document.activeElement;const frame=sensorModal.querySelector('.monitor-frame');if(frame)frame.src=`water-quality-monitor.html?v=2#${sensor}`;sensorModal.hidden=false;document.body.classList.add('modal-open');monitorClose.focus()}
 function closeMonitor(){if(!sensorModal||sensorModal.hidden)return;sensorModal.hidden=true;document.body.classList.remove('modal-open');monitorTrigger?.focus()}
 document.querySelectorAll('[data-monitor-open]').forEach(card=>card.addEventListener('click',()=>openMonitor(card.dataset.monitorOpen)));
 monitorClose?.addEventListener('click',closeMonitor);
