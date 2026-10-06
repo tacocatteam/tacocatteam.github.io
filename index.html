@@ -12,6 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23173f35'/%3E%3Cpath d='M12 38c11-10 19 10 40-6v13H12z' fill='%235ec4d6'/%3E%3Cpath d='M25 35c-2-11 4-18 16-21-1 12-6 19-16 21z' fill='%23a6c96a'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="timeline.css">
+  <link rel="stylesheet" href="monitor-modal.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -112,13 +113,31 @@
 
     <section class="section-pad monitoring" id="monitoring">
       <div class="wrap"><div class="monitor-head reveal"><div><div class="kicker">01 · LIVE SENSOR MONITORING</div><h2>Coming Soon: Live Water Monitoring</h2><p>Team Tacocat is developing a monitoring system using sensors and a Raspberry Pi. Future versions may display trends, unusual changes, and comparisons between locations—once real sensors are deployed.</p></div><span class="dev-badge"><i></i> Team Tacocat sensor system</span></div>
-        <div class="monitor-grid"><article><span>pH</span><div class="waiting"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small></article><article><span>Conductivity / TDS</span><div class="waiting"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small></article><article><span>Dissolved Oxygen (DO)</span><div class="waiting"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small></article><article><span>Water Temperature</span><div class="waiting"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small></article></div>
+        <div class="monitor-grid"><button class="sensor-card" type="button" data-monitor-open="ph" aria-haspopup="dialog"><span>pH</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="conductivity" aria-haspopup="dialog"><span>Conductivity / TDS</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="oxygen" aria-haspopup="dialog"><span>Dissolved Oxygen (DO)</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="temperature" aria-haspopup="dialog"><span>Water Temperature</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button></div>
         <div class="team-intro reveal">
           <div><span class="team-label">Meet the team</span><h3>We’re Team Tacocat.</h3><span class="tacocat-stamp">TACOCAT × WATER × TECHNOLOGY</span></div>
           <div><p>Team Tacocat is a FIRST LEGO League robotics team made up of curious, creative, and hardworking students who enjoy solving real-world problems together. Our team combines robotics, coding, research, and teamwork to develop innovative solutions. This year, we are especially interested in protecting local ecosystems and using technology to help people better understand and care for the environment.</p><div class="team-values" aria-label="Team Tacocat focus areas"><span>Science</span><span>Engineering</span><span>Community</span></div></div>
         </div>
       </div>
     </section>
+
+    <div class="monitor-modal" id="sensor-monitor-modal" hidden>
+      <div class="monitor-dialog" role="dialog" aria-modal="true" aria-labelledby="monitor-modal-title" tabindex="-1">
+        <button class="monitor-close" type="button" aria-label="Close water quality monitor">×</button>
+        <header class="monitor-modal-head">
+          <div><span>TEAM TACOCAT · WATER TECHNOLOGY</span><h2 id="monitor-modal-title">Water Quality Monitor</h2><p>The dashboard is ready. Readings will appear only after the four sensors are tested and deployed.</p></div>
+          <strong><i></i> Sensors not deployed</strong>
+        </header>
+        <div class="monitor-empty-banner" role="status">No sensor readings are available yet.</div>
+        <div class="monitor-modal-grid">
+          <article data-sensor="ph"><div><span>pH</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
+          <article data-sensor="conductivity"><div><span>Conductivity / TDS</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
+          <article data-sensor="oxygen"><div><span>Dissolved oxygen</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
+          <article data-sensor="temperature"><div><span>Water temperature</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
+        </div>
+        <p class="monitor-modal-note">Condition levels, trends, and comparisons will remain empty until real measurements are available.</p>
+      </div>
+    </div>
 
     <section class="section-pad games" id="detective">
       <div class="wrap"><div class="section-head centered reveal"><div class="kicker">05 · TEAM TACOCAT INVESTIGATES</div><h2>Put your wetland instincts to the test.</h2><p>Read the evidence, choose your answer, and learn what the clues might mean with Team Tacocat.</p></div>
