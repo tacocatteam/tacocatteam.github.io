@@ -124,18 +124,8 @@
     <div class="monitor-modal" id="sensor-monitor-modal" hidden>
       <div class="monitor-dialog" role="dialog" aria-modal="true" aria-labelledby="monitor-modal-title" tabindex="-1">
         <button class="monitor-close" type="button" aria-label="Close water quality monitor">×</button>
-        <header class="monitor-modal-head">
-          <div><span>TEAM TACOCAT · WATER TECHNOLOGY</span><h2 id="monitor-modal-title">Water Quality Monitor</h2><p>The dashboard is ready. Readings will appear only after the four sensors are tested and deployed.</p></div>
-          <strong><i></i> Sensors not deployed</strong>
-        </header>
-        <div class="monitor-empty-banner" role="status">No sensor readings are available yet.</div>
-        <div class="monitor-modal-grid">
-          <article data-sensor="ph"><div><span>pH</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
-          <article data-sensor="conductivity"><div><span>Conductivity / TDS</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
-          <article data-sensor="oxygen"><div><span>Dissolved oxygen</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
-          <article data-sensor="temperature"><div><span>Water temperature</span><b>No data</b></div><div class="modal-waiting"><i></i><i></i><i></i></div><strong>Awaiting sensor deployment</strong><small>No live reading available</small></article>
-        </div>
-        <p class="monitor-modal-note">Condition levels, trends, and comparisons will remain empty until real measurements are available.</p>
+        <h2 id="monitor-modal-title" class="visually-hidden">Water Quality Monitor</h2>
+        <iframe class="monitor-frame" title="Team Tacocat water quality monitor" src="water-quality-monitor.html"></iframe>
       </div>
     </div>
 
