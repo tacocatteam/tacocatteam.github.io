@@ -27,7 +27,7 @@ body.modal-open { overflow: hidden; }
   background: rgba(3,20,34,.76); backdrop-filter: blur(9px); animation: modal-fade .2s ease both;
 }
 .monitor-dialog {
-  position: relative; width: min(1900px,calc(100vw - 16px)); height: min(790px,calc(100vh - 16px)); overflow: hidden;
+  position: relative; width: min(2050px,calc(100vw - 96px)); height: calc(100vh - 36px); overflow: hidden;
   border: 1px solid rgba(255,255,255,.8); border-radius: 30px; background: #eef8fd;
   box-shadow: 0 35px 110px rgba(0,22,39,.5); animation: modal-rise .25s ease both;
 }
@@ -41,5 +41,5 @@ body.modal-open { overflow: hidden; }
 .monitor-close:hover,.monitor-close:focus-visible { background: #dff4ff; outline: 3px solid rgba(32,191,234,.3); }
 @keyframes modal-fade { from { opacity: 0; } }
 @keyframes modal-rise { from { opacity: 0; transform: translateY(20px) scale(.985); } }
-@media(max-width:900px){.sensor-card{transform:none!important}.monitor-dialog{border-radius:22px}}
+@media(max-width:900px){.sensor-card{transform:none!important}.monitor-dialog{width:calc(100vw - 20px);height:calc(100vh - 20px);border-radius:22px}}
 @media(max-width:560px){.monitor-close{top:8px;right:8px;width:38px;height:38px}}
