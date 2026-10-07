@@ -6,6 +6,7 @@ const tacoChatInput=document.getElementById('tacochat-input');
 const tacoChatMessages=document.getElementById('tacochat-messages');
 const tacoChatEmpty=document.getElementById('tacochat-empty');
 const tacoChatSubmit=tacoChatForm?.querySelector('button[type="submit"]');
+const tacoChatSuggestions=tacoChatPanel?.querySelectorAll('.tacochat-suggestions button[data-question]');
 const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
 const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
 const tacoChatTeamQuestion=/\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
@@ -94,6 +95,13 @@ async function getTacoChatReply(message){
 
 tacoChatLauncher?.addEventListener('click',()=>setTacoChat(tacoChatPanel.hidden));
 tacoChatClose?.addEventListener('click',()=>setTacoChat(false));
+tacoChatSuggestions?.forEach(button=>{
+  button.addEventListener('click',()=>{
+    if(!tacoChatInput||tacoChatInput.disabled)return;
+    tacoChatInput.value=button.dataset.question||'';
+    tacoChatForm?.requestSubmit();
+  });
+});
 tacoChatForm?.addEventListener('submit',async event=>{
   event.preventDefault();
   const message=tacoChatInput.value.trim();
