@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="timeline.css">
   <link rel="stylesheet" href="monitor-modal.css?v=6">
+  <link rel="stylesheet" href="tacochat.css?v=1">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -128,6 +129,31 @@
       </div>
     </div>
 
+    <aside class="tacochat" id="tacochat-panel" aria-label="TacoChat" hidden>
+      <header class="tacochat-header">
+        <span class="tacochat-avatar" aria-hidden="true"><img src="assets/tacocat-right.png" alt=""></span>
+        <div><strong>TacoChat</strong><small>Team Tacocat’s water helper</small></div>
+        <button class="tacochat-close" type="button" aria-label="Close TacoChat">×</button>
+      </header>
+      <div class="tacochat-messages" id="tacochat-messages" aria-live="polite">
+        <div class="tacochat-row tacochat-row-bot">
+          <span class="tacochat-message-avatar" aria-hidden="true"><img src="assets/tacocat-right.png" alt=""></span>
+          <p>Hi! Ask me about Team Tacocat, the Great Swamp, wetlands, or water quality. Meow!</p>
+        </div>
+      </div>
+      <div class="tacochat-notice">Layout preview · AI answers are not connected yet</div>
+      <form class="tacochat-form" id="tacochat-form">
+        <label class="sr-only" for="tacochat-input">Write your message</label>
+        <input id="tacochat-input" name="message" maxlength="300" autocomplete="off" placeholder="Write your message…">
+        <button type="submit" aria-label="Send message"><span>➜</span></button>
+      </form>
+    </aside>
+
+    <button class="tacochat-launcher" id="tacochat-launcher" type="button" aria-label="Open TacoChat" aria-expanded="false" aria-controls="tacochat-panel">
+      <img src="assets/tacocat-right.png" alt="">
+      <span>Chat with TacoChat</span>
+    </button>
+
     <section class="section-pad games" id="detective">
       <div class="wrap"><div class="section-head centered reveal"><div class="kicker">05 · TEAM TACOCAT INVESTIGATES</div><h2>Put your wetland instincts to the test.</h2><p>Read the evidence, choose your answer, and learn what the clues might mean with Team Tacocat.</p></div>
         <div class="game-shell reveal"><div class="game-intro"><div class="detective-mark">⌕</div><span>TEAM TACOCAT INTERACTIVE CHALLENGE</span><h3>Water Detective</h3><p>Six real-world scenarios. Can you follow the evidence?</p><div class="score-ring"><span id="detective-number">1</span><small id="detective-total">of 6</small></div></div><div class="game-panel" id="detective-game"></div></div>
@@ -155,5 +181,6 @@
   </main>
   <footer><div class="wrap footer-grid"><div><a class="brand footer-brand" href="#home"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Great Swamp<br><b>Water Watch</b></span></a><p>A Team Tacocat project.<br>Monitoring water. Protecting biodiversity.</p></div><div><span>EXPLORE</span><a href="#protect">Why protect?</a><a href="#quality">Water quality</a><a href="#wildlife">Wildlife</a></div><div><span>PARTICIPATE</span><a href="#detective">Water Detective</a><a href="#quiz">Knowledge Quiz</a><a href="#involved">Get involved</a></div><div class="footer-note"><span>PROJECT STATUS</span><b><i></i> Team Tacocat sensor system</b><p>Live sensor data will appear after the system is deployed.</p></div></div><div class="wrap footer-bottom"><span>Team Tacocat · FLL Innovation Project</span><span>Built to inspire curiosity and stewardship.</span></div></footer>
   <script src="script.js"></script>
+  <script src="tacochat.js?v=1"></script>
 </body>
 </html>
