@@ -5,6 +5,8 @@ const tacoChatForm=document.getElementById('tacochat-form');
 const tacoChatInput=document.getElementById('tacochat-input');
 const tacoChatMessages=document.getElementById('tacochat-messages');
 const tacoChatEmpty=document.getElementById('tacochat-empty');
+const tacoChatSubmit=tacoChatForm?.querySelector('button[type="submit"]');
+const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
 
 const tacoChatTopics=[
   'tacocat','team','fll','first lego league','innovation project','great swamp','swamp','wetland','water','ph','conductivity','tds','dissolved oxygen','oxygen','temperature','sensor','raspberry pi','runoff','road salt','storm drain','stream','ecosystem','biodiversity','wildlife','watershed','aquatic','pollution','environment','monitoring'
@@ -47,25 +49,54 @@ function addTacoChatMessage(text,fromUser=false){
   row.append(bubble);
   tacoChatMessages.append(row);
   tacoChatMessages.scrollTop=tacoChatMessages.scrollHeight;
+  return row;
 }
 
 function getTacoChatPreviewReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s/]/g,' ').replace(/\s+/g,' ').trim();
+  if(normalized==='hello')return 'Hello, how can I help you today';
   const relevant=tacoChatTopics.some(topic=>normalized.includes(topic));
   if(!relevant)return "Sorry, but I haven't learned that yet. Meow!";
   const match=tacoChatAnswers.find(item=>item.terms.some(term=>normalized.includes(term)));
   return match?.answer||'That question fits TacoChat, but the AI connection is not active yet. I will be able to answer it after Team Tacocat connects the secure service. Meow!';
 }
 
+async function getTacoChatReply(message){
+  const preview=getTacoChatPreviewReply(message);
+  if(preview.startsWith("Sorry, but I haven't learned"))return preview;
+  try{
+    const response=await fetch(tacoChatEndpoint,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message})
+    });
+    const data=await response.json();
+    if(!response.ok||!data.reply)throw new Error(data.error||'TacoChat request failed');
+    return data.reply;
+  }catch(error){
+    console.warn('TacoChat AI unavailable; using the built-in answer.',error);
+    const match=tacoChatAnswers.find(item=>item.terms.some(term=>message.toLowerCase().includes(term)));
+    return match?.answer||'TacoChat is temporarily unavailable. Please try again soon. Meow!';
+  }
+}
+
 tacoChatLauncher?.addEventListener('click',()=>setTacoChat(tacoChatPanel.hidden));
 tacoChatClose?.addEventListener('click',()=>setTacoChat(false));
-tacoChatForm?.addEventListener('submit',event=>{
+tacoChatForm?.addEventListener('submit',async event=>{
   event.preventDefault();
   const message=tacoChatInput.value.trim();
   if(!message)return;
   addTacoChatMessage(message,true);
   tacoChatInput.value='';
-  window.setTimeout(()=>addTacoChatMessage(getTacoChatPreviewReply(message)),250);
+  tacoChatInput.disabled=true;
+  tacoChatSubmit.disabled=true;
+  const thinking=addTacoChatMessage('Thinking…');
+  const reply=await getTacoChatReply(message);
+  thinking.remove();
+  addTacoChatMessage(reply);
+  tacoChatInput.disabled=false;
+  tacoChatSubmit.disabled=false;
+  tacoChatInput.focus();
 });
 
 document.addEventListener('keydown',event=>{
