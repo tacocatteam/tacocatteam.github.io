@@ -4,6 +4,7 @@ const tacoChatClose=tacoChatPanel?.querySelector('.tacochat-close');
 const tacoChatForm=document.getElementById('tacochat-form');
 const tacoChatInput=document.getElementById('tacochat-input');
 const tacoChatMessages=document.getElementById('tacochat-messages');
+const tacoChatEmpty=document.getElementById('tacochat-empty');
 
 const tacoChatTopics=[
   'tacocat','team','fll','first lego league','innovation project','great swamp','swamp','wetland','water','ph','conductivity','tds','dissolved oxygen','oxygen','temperature','sensor','raspberry pi','runoff','road salt','storm drain','stream','ecosystem','biodiversity','wildlife','watershed','aquatic','pollution','environment','monitoring'
@@ -28,6 +29,7 @@ function setTacoChat(open){
 }
 
 function addTacoChatMessage(text,fromUser=false){
+  tacoChatEmpty?.remove();
   const row=document.createElement('div');
   row.className=`tacochat-row ${fromUser?'tacochat-row-user':'tacochat-row-bot'}`;
   if(!fromUser){

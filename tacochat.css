@@ -1,14 +1,20 @@
 .tacochat[hidden]{display:none}
-.tacochat{position:fixed;right:24px;bottom:112px;z-index:1500;width:min(390px,calc(100vw - 32px));height:min(590px,calc(100vh - 140px));display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden;border:2px solid #9edcf6;border-radius:30px;background:#eaf8ff;box-shadow:0 26px 80px rgba(2,43,75,.3);animation:tacochat-open .2s ease both}
+.tacochat{position:fixed;right:24px;bottom:112px;z-index:1500;width:min(390px,calc(100vw - 32px));height:min(620px,calc(100vh - 140px));display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;border:2px solid #9edcf6;border-radius:30px;background:#eaf8ff;box-shadow:0 26px 80px rgba(2,43,75,.3);animation:tacochat-open .2s ease both}
 .tacochat-header{display:grid;grid-template-columns:50px 1fr 42px;align-items:center;gap:12px;padding:14px 14px 13px 16px;border-bottom:1px solid #bee4f4;background:rgba(234,248,255,.96)}
 .tacochat-avatar,.tacochat-message-avatar{display:grid;place-items:center;overflow:hidden;border-radius:50%;background:#1098db}
 .tacochat-avatar{width:50px;height:50px;border:3px solid #fff;box-shadow:0 4px 12px rgba(7,93,168,.18)}
-.tacochat-avatar img,.tacochat-message-avatar img,.tacochat-launcher img{width:88%;height:88%;object-fit:contain;border-radius:50%;background:#fff}
+.tacochat-avatar img,.tacochat-launcher img{width:88%;height:88%;object-fit:contain}
 .tacochat-header strong{display:block;color:#073b64;font:800 1.28rem/1.1 Manrope,sans-serif}
 .tacochat-header small{display:block;margin-top:4px;color:#52758e;font-size:.68rem}
 .tacochat-close{display:grid;place-items:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:transparent;color:#073b64;font:400 1.8rem/1 sans-serif;cursor:pointer}
 .tacochat-close:hover,.tacochat-close:focus-visible{background:#cbefff;outline:3px solid rgba(14,143,212,.22)}
 .tacochat-messages{overflow-y:auto;padding:20px 16px;scrollbar-color:#8acbe8 transparent}
+.tacochat-empty{min-height:100%;padding:24px 8px 30px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;color:#111}
+.tacochat-empty .tacochat-meow{position:relative;align-self:center;margin:2px 36px 7px 0;padding:12px 38px;border-radius:11px;background:#086ac1;color:#fff;font:500 1.65rem/1.2 "DM Sans",sans-serif}
+.tacochat-empty .tacochat-meow:after{content:"";position:absolute;left:22px;bottom:-24px;border-width:25px 18px 0 0;border-style:solid;border-color:#086ac1 transparent transparent transparent}
+.tacochat-empty>img{width:145px;height:auto;margin:4px 0 2px -2px;object-fit:contain}
+.tacochat-empty h2{margin:4px 0 3px;font:800 2.45rem/1.1 Manrope,sans-serif;color:#050505}
+.tacochat-empty>p{margin:8px 0 0;color:#111;font-size:1.18rem}
 .tacochat-row{display:flex;align-items:flex-end;gap:9px;margin:0 0 18px}
 .tacochat-row p{position:relative;max-width:82%;margin:0;padding:13px 16px;border-radius:20px;color:#fff;background:#0873c5;font-size:.91rem;line-height:1.45;box-shadow:0 7px 18px rgba(7,93,168,.13)}
 .tacochat-row-bot p{border-bottom-left-radius:5px}
@@ -16,7 +22,8 @@
 .tacochat-row-user{justify-content:flex-end}
 .tacochat-row-user p{border-bottom-right-radius:5px;background:#075da8}
 .tacochat-row-user p:after{content:"";position:absolute;right:-7px;bottom:0;border-width:8px 0 0 8px;border-style:solid;border-color:#075da8 transparent transparent transparent}
-.tacochat-message-avatar{flex:0 0 43px;width:43px;height:43px;border:2px solid #8ddcf7}
+.tacochat-message-avatar{display:block;flex:0 0 96px;width:96px;height:auto;overflow:visible;background:transparent;border:0;border-radius:0}
+.tacochat-message-avatar img{display:block;width:96px;height:auto;object-fit:contain}
 .tacochat-notice{padding:7px 16px;text-align:center;color:#5e7e92;background:#dff3fc;font-size:.62rem;font-weight:700;letter-spacing:.03em}
 .tacochat-form{display:grid;grid-template-columns:1fr 48px;gap:8px;align-items:center;padding:12px 13px 13px;border-top:1px solid #bee4f4;background:#fff}
 .tacochat-form input{min-width:0;margin:0;padding:11px 10px;border:0;background:transparent;color:#073b64;font:500 .88rem "DM Sans",sans-serif;outline:0}
@@ -30,5 +37,5 @@
 .tacochat-launcher span{position:absolute;right:66px;width:max-content;padding:8px 11px;border-radius:10px;background:#073b64;color:#fff;font-size:.68rem;font-weight:700;opacity:0;pointer-events:none;transform:translateX(6px);transition:.18s}
 .tacochat-launcher:hover span,.tacochat-launcher:focus-visible span{opacity:1;transform:none}
 @keyframes tacochat-open{from{opacity:0;transform:translateY(14px) scale(.98)}}
-@media(max-width:560px){.tacochat{right:10px;bottom:92px;width:calc(100vw - 20px);height:min(620px,calc(100dvh - 112px));border-radius:24px}.tacochat-launcher{right:15px;bottom:14px;width:68px;height:68px}.tacochat-launcher span{display:none}.tacochat-row p{max-width:84%}}
+@media(max-width:560px){.tacochat{right:10px;bottom:92px;width:calc(100vw - 20px);height:min(620px,calc(100dvh - 112px));border-radius:24px}.tacochat-launcher{right:15px;bottom:14px;width:68px;height:68px}.tacochat-launcher span{display:none}.tacochat-row p{max-width:84%}.tacochat-message-avatar,.tacochat-message-avatar img{width:88px;flex-basis:88px}}
 @media(prefers-reduced-motion:reduce){.tacochat{animation:none}.tacochat-launcher,.tacochat-form button{transition:none}}
