@@ -4,6 +4,8 @@ const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043
 const TEAM_QUESTION = /\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
 const PI_DESCRIPTION = 'TacoChat is the website assistant, not a Raspberry Pi. Team Tacocat\u2019s Great Swamp Water Watch system is designed to use a Raspberry Pi 3B+ to collect and organize information from its water-quality sensors. Meow!';
 const PI_QUESTION = /\braspberry\s*pi\b|\b(?:which|what)\s+pi\b|\bpi\s+model\b/i;
+const IDENTITY_DESCRIPTION = 'I am TacoChat, the official chatbot for the Tacocat Team, how can I help';
+const IDENTITY_QUESTION = /^\s*(?:who|what)\s+(?:are|r)\s+(?:you|u)[!?.,]*\s*$/i;
 const PROJECT_TOPIC = /taco ?cat|first lego|\bfll\b|robot|great swamp|wetland|water|quality|sensor|raspberry pi|\bph\b|conductivity|\btds\b|dissolved oxygen|\bdo\b|temperature|salt|runoff|stream|ecosystem|environment|wildlife|biodiversity/i;
 const SHORT_ANSWERS = {
   do: 'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
@@ -48,6 +50,9 @@ export default {
     if (/^hello[!.?]*$/i.test(message)) {
       return json({ reply: 'Hello, how can I help you today', filtered: true }, 200, origin);
     }
+    if (IDENTITY_QUESTION.test(message)) {
+      return json({ reply: IDENTITY_DESCRIPTION, hardcoded: true }, 200, origin);
+    }
     if (PI_QUESTION.test(message)) {
       return json({ reply: PI_DESCRIPTION, hardcoded: true }, 200, origin);
     }
@@ -61,7 +66,7 @@ export default {
         messages: [
           {
             role: 'system',
-            content: 'You are TacoChat, the friendly website assistant for Team Tacocat, FIRST LEGO League team #34043, and its Great Swamp Water Watch project. You are not a Raspberry Pi. The project is designed to use a Raspberry Pi 3B+, never a Raspberry Pi 4 Model B. You may answer any reasonable question, including short terms, abbreviations, follow-up questions, and phrases such as "your team." Give especially helpful answers about Team Tacocat, FIRST LEGO League, the Great Swamp and wetlands, environmental protection, road-salt runoff, water quality, and the planned Raspberry Pi 3B+ monitoring system using pH, conductivity/TDS, dissolved oxygen (DO), and water temperature. If a question is unrelated, answer it briefly without letting the conversation drift far, then offer to help with Team Tacocat, the Great Swamp, or water quality. The sensors have not been deployed and there are no live readings. Never invent team history, results, dates, measurements, hardware models, or deployment progress; clearly say when team-specific information is unknown. Use clear student-friendly language, usually answer in 2-4 short sentences, and always end with Meow!'
+            content: 'You are TacoChat, the official chatbot for the Tacocat Team and the friendly website assistant for FIRST LEGO League team #34043 and its Great Swamp Water Watch project. You are not a Raspberry Pi. The project is designed to use a Raspberry Pi 3B+, never a Raspberry Pi 4 Model B. You may answer any reasonable question, including short terms, abbreviations, follow-up questions, and phrases such as "your team." Give especially helpful answers about Team Tacocat, FIRST LEGO League, the Great Swamp and wetlands, environmental protection, road-salt runoff, water quality, and the planned Raspberry Pi 3B+ monitoring system using pH, conductivity/TDS, dissolved oxygen (DO), and water temperature. If a question is unrelated, answer it briefly without letting the conversation drift far, then offer to help with Team Tacocat, the Great Swamp, or water quality. The sensors have not been deployed and there are no live readings. Never invent team history, results, dates, measurements, hardware models, or deployment progress; clearly say when team-specific information is unknown. Use clear student-friendly language, usually answer in 2-4 short sentences, and always end with Meow!'
           },
           { role: 'user', content: message }
         ],

@@ -11,6 +11,8 @@ const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #
 const tacoChatTeamQuestion=/\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
 const tacoChatPiDescription='TacoChat is the website assistant, not a Raspberry Pi. Team Tacocat\u2019s Great Swamp Water Watch system is designed to use a Raspberry Pi 3B+ to collect and organize information from its water-quality sensors. Meow!';
 const tacoChatPiQuestion=/\braspberry\s*pi\b|\b(?:which|what)\s+pi\b|\bpi\s+model\b/i;
+const tacoChatIdentityDescription='I am TacoChat, the official chatbot for the Tacocat Team, how can I help';
+const tacoChatIdentityQuestion=/^(?:who|what)\s+(?:are|r)\s+(?:you|u)$/i;
 const tacoChatShortAnswers={
   do:'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
   ph:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
@@ -60,6 +62,7 @@ function addTacoChatMessage(text,fromUser=false){
 function getTacoChatPreviewReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s/]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
+  if(tacoChatIdentityQuestion.test(normalized))return tacoChatIdentityDescription;
   if(tacoChatPiQuestion.test(normalized))return tacoChatPiDescription;
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
   if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
@@ -70,6 +73,7 @@ function getTacoChatPreviewReply(message){
 async function getTacoChatReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
+  if(tacoChatIdentityQuestion.test(normalized))return tacoChatIdentityDescription;
   if(tacoChatPiQuestion.test(normalized))return tacoChatPiDescription;
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
   if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
