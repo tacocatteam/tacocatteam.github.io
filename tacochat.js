@@ -60,6 +60,41 @@ function addTacoChatMessage(text,fromUser=false){
   return row;
 }
 
+function getTacoChatFollowUps(message){
+  const normalized=message.toLowerCase();
+  if(/dissolved oxygen|\bdo\b|oxygen/.test(normalized))return['Why does dissolved oxygen matter?','What affects dissolved oxygen levels?'];
+  if(/road salt|runoff|conductivity|tds/.test(normalized))return['Why is road salt a problem for wetlands?','How can people reduce salt runoff?'];
+  if(/team taco\s*cat|team tacocat|your team/.test(normalized))return['How does your monitoring system work?','Why did Team Tacocat choose the Great Swamp?'];
+  if(/monitor|sensor|raspberry pi|system/.test(normalized))return['What does each sensor measure?','Why track water quality over time?'];
+  if(/wetland|great swamp|wildlife/.test(normalized))return['Why does wetland biodiversity matter?','How can people help protect wetlands?'];
+  return['Why does water quality matter?','How can people help protect wetlands?'];
+}
+
+function submitTacoChatQuestion(question){
+  if(!tacoChatInput||tacoChatInput.disabled||!question)return;
+  tacoChatInput.value=question;
+  tacoChatForm?.requestSubmit();
+}
+
+function addTacoChatFollowUps(questions){
+  const group=document.createElement('div');
+  group.className='tacochat-followups';
+  group.setAttribute('role','group');
+  group.setAttribute('aria-label','Related questions');
+  const label=document.createElement('span');
+  label.textContent='You could also ask';
+  group.append(label);
+  questions.forEach(question=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=question;
+    button.addEventListener('click',()=>submitTacoChatQuestion(question));
+    group.append(button);
+  });
+  tacoChatMessages.append(group);
+  tacoChatMessages.scrollTop=tacoChatMessages.scrollHeight;
+}
+
 function getTacoChatPreviewReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s/]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
@@ -96,16 +131,13 @@ async function getTacoChatReply(message){
 tacoChatLauncher?.addEventListener('click',()=>setTacoChat(tacoChatPanel.hidden));
 tacoChatClose?.addEventListener('click',()=>setTacoChat(false));
 tacoChatSuggestions?.forEach(button=>{
-  button.addEventListener('click',()=>{
-    if(!tacoChatInput||tacoChatInput.disabled)return;
-    tacoChatInput.value=button.dataset.question||'';
-    tacoChatForm?.requestSubmit();
-  });
+  button.addEventListener('click',()=>submitTacoChatQuestion(button.dataset.question||''));
 });
 tacoChatForm?.addEventListener('submit',async event=>{
   event.preventDefault();
   const message=tacoChatInput.value.trim();
   if(!message)return;
+  tacoChatMessages.querySelectorAll('.tacochat-followups').forEach(group=>group.remove());
   addTacoChatMessage(message,true);
   tacoChatInput.value='';
   tacoChatInput.disabled=true;
@@ -114,6 +146,7 @@ tacoChatForm?.addEventListener('submit',async event=>{
   const reply=await getTacoChatReply(message);
   thinking.remove();
   addTacoChatMessage(reply);
+  addTacoChatFollowUps(getTacoChatFollowUps(message));
   tacoChatInput.disabled=false;
   tacoChatSubmit.disabled=false;
   tacoChatInput.focus();

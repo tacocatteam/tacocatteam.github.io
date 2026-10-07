@@ -5,15 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#173f35">
   <meta name="description" content="Team Tacocat explores how water monitoring, education, and community action can help protect New Jersey's Great Swamp.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Water Watch">
   <title>Great Swamp Water Watch | Team Tacocat — Blue Theme</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23173f35'/%3E%3Cpath d='M12 38c11-10 19 10 40-6v13H12z' fill='%235ec4d6'/%3E%3Cpath d='M25 35c-2-11 4-18 16-21-1 12-6 19-16 21z' fill='%23a6c96a'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/pwa-icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=4">
   <link rel="stylesheet" href="timeline.css">
   <link rel="stylesheet" href="monitor-modal.css?v=6">
-  <link rel="stylesheet" href="tacochat.css?v=5">
+  <link rel="stylesheet" href="tacochat.css?v=6">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -22,7 +27,7 @@
       <a class="brand" href="#home" aria-label="Team Tacocat home"><span class="brand-mark">≈</span><span><small>FLL ROBOTICS TEAM</small>Team<br><b>Tacocat</b></span></a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span><span class="sr-only">Open menu</span></button>
       <div class="nav-links" id="nav-links">
-        <a href="#home">Home</a><a href="#quality">Water Quality</a><a href="#protect">Why Protect?</a><a href="#timeline">Timeline</a><a href="#detective">Water Detective</a><a href="#quiz">Quiz</a><a href="#wildlife">Wildlife</a><a href="#involved">Get Involved</a>
+        <a href="#home">Home</a><a href="#quality">Water Quality</a><a href="#protect">Why Protect?</a><a href="#timeline">Timeline</a><a href="#detective">Water Detective</a><a href="#quiz">Quiz</a><a href="#achievements">Achievements</a><a href="#wildlife">Wildlife</a><a href="#involved">Get Involved</a><button class="pwa-install" id="pwa-install" type="button" hidden>Install app</button>
       </div>
     </nav>
   </header>
@@ -171,6 +176,17 @@
       <div class="wrap quiz-layout"><div class="quiz-copy reveal"><div class="kicker">06 · TEAM TACOCAT KNOWLEDGE QUIZ</div><h2>Great Swamp<br>Knowledge Quiz</h2><p>From filtration to food webs—see what you know about healthy wetlands and how people can help.</p><div class="quiz-progress"><div><span id="quiz-label">Question 1 of 6</span><b id="quiz-score-label">Score 0</b></div><div class="track"><i id="quiz-bar"></i></div></div></div><div class="quiz-card reveal delay-1" id="knowledge-game"></div></div>
     </section>
 
+    <section class="section-pad achievements" id="achievements">
+      <div class="wrap">
+        <div class="section-head centered reveal"><div class="kicker">ACHIEVEMENTS</div><h2>Learn. Investigate. Earn.</h2><p>Your achievements are saved on this device. Complete each activity to unlock its badge, then solve every Water Detective case correctly to create your certificate.</p></div>
+        <div class="achievement-grid">
+          <article class="achievement-card" data-achievement="knowledge"><div class="achievement-emblem" aria-hidden="true">✦</div><div><span>KNOWLEDGE BADGE</span><h3>Wetland Scholar</h3><p>Complete all six Great Swamp Knowledge Quiz questions.</p><strong class="achievement-status">Locked · Finish the quiz</strong></div></article>
+          <article class="achievement-card" data-achievement="detective"><div class="achievement-emblem" aria-hidden="true">⌕</div><div><span>DETECTIVE BADGE</span><h3>Water Detective</h3><p>Solve all six case files and follow the environmental clues.</p><strong class="achievement-status">Locked · Finish every case</strong></div></article>
+          <article class="certificate-unlock" id="certificate-unlock"><div><span>CERTIFICATE OF COMPLETION</span><h3>Your investigation deserves recognition.</h3><p id="certificate-status">Earn a 6/6 Water Detective score to unlock your personalized certificate.</p></div><button class="button certificate-button" id="open-certificate" type="button" disabled>Locked</button></article>
+        </div>
+      </div>
+    </section>
+
     <section class="section-pad wildlife" id="wildlife">
       <div class="wrap"><div class="wildlife-lead reveal"><div><div class="kicker light">07 · TACOCAT &amp; BIODIVERSITY</div><h2>Water connects<br><em>everything.</em></h2></div><p>Team Tacocat is exploring how water quality connects the whole wetland. Changes in aquatic conditions can influence plants, insects, fish, amphibians, birds, and other organisms throughout the food web.</p></div>
         <div class="species-row"><div class="species"><b>♢</b><span>Turtles</span></div><div class="species"><b>◠</b><span>Frogs</span></div><div class="species"><b>⋖</b><span>Fish</span></div><div class="species"><b>⌁</b><span>Birds</span></div><div class="species"><b>✣</b><span>Insects</span></div><div class="species"><b>♧</b><span>Aquatic plants</span></div><div class="species"><b>◌</b><span>Mammals</span></div></div>
@@ -186,8 +202,27 @@
     </section>
 
   </main>
+
+  <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-title">
+    <div class="certificate-controls">
+      <label for="certificate-name">Name on certificate<input id="certificate-name" maxlength="60" autocomplete="name" placeholder="Enter your name"></label>
+      <button class="button primary" id="print-certificate" type="button" disabled>Print or save PDF</button>
+      <button class="certificate-close" type="button" aria-label="Close certificate">×</button>
+    </div>
+    <article class="certificate-sheet" id="certificate-sheet">
+      <div class="certificate-corner corner-one"></div><div class="certificate-corner corner-two"></div>
+      <header><img src="assets/tacocat-right.png" alt=""><div><span>TEAM TACOCAT · FLL TEAM #34043</span><strong>Great Swamp Water Watch</strong></div></header>
+      <div class="certificate-mark" aria-hidden="true">⌕</div>
+      <p class="certificate-overline">CERTIFICATE OF COMPLETION</p>
+      <h2 id="certificate-title">Great Swamp Water Detective</h2>
+      <p class="certificate-presented">This certificate is proudly presented to</p>
+      <div class="certificate-recipient" id="certificate-recipient">Your Name</div>
+      <p class="certificate-copy">for completing all six Water Detective case files and demonstrating curiosity, careful observation, and an understanding of how water-quality clues help us care for wetlands.</p>
+      <div class="certificate-footer"><div><span id="certificate-date"></span><b>Date completed</b></div><div class="certificate-seal"><span>6/6</span><small>CASES<br>COMPLETE</small></div><div><span>Team Tacocat</span><b>FLL Robotics Team #34043</b></div></div>
+    </article>
+  </dialog>
   <footer><div class="wrap footer-grid"><div><a class="brand footer-brand" href="#home"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Great Swamp<br><b>Water Watch</b></span></a><p>A Team Tacocat project.<br>Monitoring water. Protecting biodiversity.</p></div><div><span>EXPLORE</span><a href="#protect">Why protect?</a><a href="#quality">Water quality</a><a href="#wildlife">Wildlife</a></div><div><span>PARTICIPATE</span><a href="#detective">Water Detective</a><a href="#quiz">Knowledge Quiz</a><a href="#involved">Get involved</a></div><div class="footer-note"><span>PROJECT STATUS</span><b><i></i> Team Tacocat sensor system</b><p>Live sensor data will appear after the system is deployed.</p></div></div><div class="wrap footer-bottom"><span>Team Tacocat · FLL Innovation Project</span><span>Built to inspire curiosity and stewardship.</span></div></footer>
-  <script src="script.js"></script>
-  <script src="tacochat.js?v=11"></script>
+  <script src="script.js?v=4"></script>
+  <script src="tacochat.js?v=13"></script>
 </body>
 </html>

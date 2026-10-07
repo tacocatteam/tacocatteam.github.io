@@ -1,0 +1,43 @@
+{
+  "name": "Team Tacocat Great Swamp Water Watch",
+  "short_name": "Water Watch",
+  "description": "Explore wetlands, water quality, Team Tacocat activities, and the Great Swamp Water Watch project.",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eaf8ff",
+  "theme_color": "#075da8",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Water Detective",
+      "short_name": "Detective",
+      "url": "./#detective"
+    },
+    {
+      "name": "Knowledge Quiz",
+      "short_name": "Quiz",
+      "url": "./#quiz"
+    },
+    {
+      "name": "TacoChat",
+      "short_name": "TacoChat",
+      "url": "./#timeline"
+    }
+  ]
+}
