@@ -9,6 +9,11 @@ const tacoChatSubmit=tacoChatForm?.querySelector('button[type="submit"]');
 const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
 const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
 const tacoChatTeamQuestion=/\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
+const tacoChatShortAnswers={
+  do:'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
+  ph:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
+  tds:'TDS stands for total dissolved solids, an estimate of the dissolved substances in water. It is often estimated using conductivity. Meow!'
+};
 
 const tacoChatAnswers=[
   {terms:['ph'],answer:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!'},
@@ -54,6 +59,7 @@ function getTacoChatPreviewReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s/]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
+  if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
   const match=tacoChatAnswers.find(item=>item.terms.some(term=>normalized.includes(term)));
   return match?.answer||'TacoChat is temporarily unavailable. Please try again soon. Meow!';
 }
@@ -62,6 +68,7 @@ async function getTacoChatReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
+  if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
   try{
     const response=await fetch(tacoChatEndpoint,{
       method:'POST',

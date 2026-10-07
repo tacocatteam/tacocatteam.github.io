@@ -1,7 +1,13 @@
 const SITE_ORIGIN = 'https://tacocatteam.github.io';
-const MODEL = '@cf/google/gemma-4-26b-a4b-it';
+const MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
 const TEAM_QUESTION = /\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
+const PROJECT_TOPIC = /taco ?cat|first lego|\bfll\b|robot|great swamp|wetland|water|quality|sensor|raspberry pi|\bph\b|conductivity|\btds\b|dissolved oxygen|\bdo\b|temperature|salt|runoff|stream|ecosystem|environment|wildlife|biodiversity/i;
+const SHORT_ANSWERS = {
+  do: 'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
+  ph: 'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
+  tds: 'TDS stands for total dissolved solids, an estimate of the dissolved substances in water. It is often estimated using conductivity. Meow!'
+};
 
 function headers(origin = '') {
   const result = {
@@ -26,7 +32,7 @@ export default {
         ? new Response(null, { status: 403 })
         : new Response(null, { status: 204, headers: headers(origin) });
     }
-    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Gemma 4', release: 'open-conversation-v2' }, 200, origin);
+    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Llama 3.2 1B', release: 'llama-1b-v3' }, 200, origin);
     if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405, origin);
     if (origin && origin !== SITE_ORIGIN) return json({ error: 'Origin not allowed.' }, 403, origin);
 
@@ -43,6 +49,8 @@ export default {
     if (TEAM_QUESTION.test(message)) {
       return json({ reply: TEAM_DESCRIPTION, hardcoded: true }, 200, origin);
     }
+    const shortAnswer = SHORT_ANSWERS[message.toLowerCase().replace(/[^a-z0-9]/g, '')];
+    if (shortAnswer) return json({ reply: shortAnswer, hardcoded: true }, 200, origin);
     try {
       const result = await env.AI.run(MODEL, {
         messages: [
@@ -58,6 +66,10 @@ export default {
       });
       let reply = String(result.response || result.choices?.[0]?.message?.content || '').trim();
       if (!reply) reply = "Sorry, I couldn't answer that right now. Meow!";
+      if (!PROJECT_TOPIC.test(message)) {
+        reply = reply.replace(/\s*meow!?\s*$/i, '').trim();
+        reply += ' I can also help with Team Tacocat, the Great Swamp, or water quality.';
+      }
       if (!/meow!?$/i.test(reply)) reply += ' Meow!';
       return json({ reply }, 200, origin);
     } catch {
