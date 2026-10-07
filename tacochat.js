@@ -8,10 +8,6 @@ const tacoChatEmpty=document.getElementById('tacochat-empty');
 const tacoChatSubmit=tacoChatForm?.querySelector('button[type="submit"]');
 const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
 
-const tacoChatTopics=[
-  'tacocat','team','fll','first lego league','innovation project','great swamp','swamp','wetland','water','ph','conductivity','tds','dissolved oxygen','oxygen','temperature','sensor','raspberry pi','runoff','road salt','storm drain','stream','ecosystem','biodiversity','wildlife','watershed','aquatic','pollution','environment','monitoring'
-];
-
 const tacoChatAnswers=[
   {terms:['ph'],answer:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!'},
   {terms:['conductivity','tds'],answer:'Conductivity responds to dissolved ions in water. TDS estimates the amount of dissolved material, often using conductivity as a clue. Meow!'},
@@ -55,15 +51,13 @@ function addTacoChatMessage(text,fromUser=false){
 function getTacoChatPreviewReply(message){
   const normalized=message.toLowerCase().replace(/[^a-z0-9\s/]/g,' ').replace(/\s+/g,' ').trim();
   if(normalized==='hello')return 'Hello, how can I help you today';
-  const relevant=tacoChatTopics.some(topic=>normalized.includes(topic));
-  if(!relevant)return "Sorry, but I haven't learned that yet. Meow!";
   const match=tacoChatAnswers.find(item=>item.terms.some(term=>normalized.includes(term)));
-  return match?.answer||'That question fits TacoChat, but the AI connection is not active yet. I will be able to answer it after Team Tacocat connects the secure service. Meow!';
+  return match?.answer||'TacoChat is temporarily unavailable. Please try again soon. Meow!';
 }
 
 async function getTacoChatReply(message){
-  const preview=getTacoChatPreviewReply(message);
-  if(preview.startsWith("Sorry, but I haven't learned"))return preview;
+  const normalized=message.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+  if(normalized==='hello')return 'Hello, how can I help you today';
   try{
     const response=await fetch(tacoChatEndpoint,{
       method:'POST',
@@ -75,8 +69,7 @@ async function getTacoChatReply(message){
     return data.reply;
   }catch(error){
     console.warn('TacoChat AI unavailable; using the built-in answer.',error);
-    const match=tacoChatAnswers.find(item=>item.terms.some(term=>message.toLowerCase().includes(term)));
-    return match?.answer||'TacoChat is temporarily unavailable. Please try again soon. Meow!';
+    return getTacoChatPreviewReply(message);
   }
 }
 

@@ -1,6 +1,5 @@
 const SITE_ORIGIN = 'https://tacocatteam.github.io';
 const MODEL = '@cf/google/gemma-4-26b-a4b-it';
-const TOPICS = /taco ?cat|first lego|\bfll\b|robot|great swamp|wetland|water|quality|sensor|raspberry pi|\bph\b|conductivity|\btds\b|dissolved oxygen|temperature|salt|runoff|stream|ecosystem|environment/i;
 
 function headers(origin = '') {
   const result = {
@@ -25,7 +24,7 @@ export default {
         ? new Response(null, { status: 403 })
         : new Response(null, { status: 204, headers: headers(origin) });
     }
-    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Gemma 4' }, 200, origin);
+    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Gemma 4', release: 'open-conversation-v2' }, 200, origin);
     if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405, origin);
     if (origin && origin !== SITE_ORIGIN) return json({ error: 'Origin not allowed.' }, 403, origin);
 
@@ -39,16 +38,12 @@ export default {
     if (/^hello[!.?]*$/i.test(message)) {
       return json({ reply: 'Hello, how can I help you today', filtered: true }, 200, origin);
     }
-    if (!TOPICS.test(message)) {
-      return json({ reply: "Sorry, but I haven't learned that yet. Meow!", filtered: true }, 200, origin);
-    }
-
     try {
       const result = await env.AI.run(MODEL, {
         messages: [
           {
             role: 'system',
-            content: 'You are TacoChat, the friendly website assistant for Team Tacocat, FIRST LEGO League team #34043, and its Great Swamp Water Watch project. Answer only about Team Tacocat, FIRST LEGO League, the Great Swamp and wetlands, environmental protection, road-salt runoff, water quality, or the planned Raspberry Pi monitoring system using pH, conductivity/TDS, dissolved oxygen, and water temperature. The sensors have not been deployed and there are no live readings. Never invent team history, results, dates, measurements, or deployment progress. If unsure, say you have not learned that yet. Use clear student-friendly language, answer in 2-4 short sentences, and always end with Meow!'
+            content: 'You are TacoChat, the friendly website assistant for Team Tacocat, FIRST LEGO League team #34043, and its Great Swamp Water Watch project. You may answer any reasonable question, including short terms, abbreviations, follow-up questions, and phrases such as "your team." Give especially helpful answers about Team Tacocat, FIRST LEGO League, the Great Swamp and wetlands, environmental protection, road-salt runoff, water quality, and the planned Raspberry Pi monitoring system using pH, conductivity/TDS, dissolved oxygen (DO), and water temperature. If a question is unrelated, answer it briefly without letting the conversation drift far, then offer to help with Team Tacocat, the Great Swamp, or water quality. The sensors have not been deployed and there are no live readings. Never invent team history, results, dates, measurements, or deployment progress; clearly say when team-specific information is unknown. Use clear student-friendly language, usually answer in 2-4 short sentences, and always end with Meow!'
           },
           { role: 'user', content: message }
         ],
