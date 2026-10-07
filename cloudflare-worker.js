@@ -1,5 +1,7 @@
 const SITE_ORIGIN = 'https://tacocatteam.github.io';
 const MODEL = '@cf/google/gemma-4-26b-a4b-it';
+const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
+const TEAM_QUESTION = /\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
 
 function headers(origin = '') {
   const result = {
@@ -37,6 +39,9 @@ export default {
     if (message.length > 300) return json({ error: 'Please keep your message under 300 characters.' }, 400, origin);
     if (/^hello[!.?]*$/i.test(message)) {
       return json({ reply: 'Hello, how can I help you today', filtered: true }, 200, origin);
+    }
+    if (TEAM_QUESTION.test(message)) {
+      return json({ reply: TEAM_DESCRIPTION, hardcoded: true }, 200, origin);
     }
     try {
       const result = await env.AI.run(MODEL, {
