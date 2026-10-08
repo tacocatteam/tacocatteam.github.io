@@ -1,18 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#173f35">
+  <meta name="theme-color" content="#075da8">
   <meta name="description" content="Team Tacocat explores how water monitoring, education, and community action can help protect New Jersey's Great Swamp.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Water Watch">
-  <title>Great Swamp Water Watch | Team Tacocat — Blue Theme</title>
+  <title>Great Swamp Water Watch | Team Tacocat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23173f35'/%3E%3Cpath d='M12 38c11-10 19 10 40-6v13H12z' fill='%235ec4d6'/%3E%3Cpath d='M25 35c-2-11 4-18 16-21-1 12-6 19-16 21z' fill='%23a6c96a'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="assets/pwa-icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/pwa-icon-192.png">
   <link rel="stylesheet" href="styles.css?v=4">
@@ -25,7 +25,7 @@
   <header class="site-header" id="home">
     <nav class="nav wrap" aria-label="Primary navigation">
       <a class="brand" href="#home" aria-label="Team Tacocat home"><span class="brand-mark">≈</span><span><small>FLL ROBOTICS TEAM</small>Team<br><b>Tacocat</b></span></a>
-      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span><span class="sr-only">Open menu</span></button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span><span class="sr-only">Open menu</span></button>
       <div class="nav-links" id="nav-links">
         <a href="#home">Home</a><a href="#quality">Water Quality</a><a href="#protect">Why Protect?</a><a href="#timeline">Timeline</a><a href="#detective">Water Detective</a><a href="#quiz">Quiz</a><a href="#achievements">Achievements</a><a href="#wildlife">Wildlife</a><a href="#involved">Get Involved</a><button class="pwa-install" id="pwa-install" type="button" hidden>Install app</button>
       </div>
@@ -49,7 +49,7 @@
           <div class="species-chip chip-one">◌ <span>Living wetlands</span></div><div class="species-chip chip-two">⌁ <span>Connected water</span></div>
         </div>
       </div>
-      <div class="story-strip wrap" aria-label="Our story"><span>See</span><b>→</b><span>Learn</span><b>→</b><span>Understand</span><b>→</b><span>Participate</span><b>→</b><span>Protect</span></div>
+      <div class="story-strip wrap" role="img" aria-label="Our story"><span>See</span><b>→</b><span>Learn</span><b>→</b><span>Understand</span><b>→</b><span>Participate</span><b>→</b><span>Protect</span></div>
     </section>
 
     <section class="section-pad protect" id="protect">
@@ -74,7 +74,7 @@
           <div class="kicker">WATCH THE JOURNEY</div>
           <h2>How road salt reaches a wetland.</h2>
           <p>Road-salt runoff begins when rain or melting snow dissolves salt and carries it away from pavement. Follow the water as it moves along curbs, through storm drains and pipes, into streams, and eventually toward a wetland.</p>
-          <div class="runoff-facts" aria-label="Road salt runoff path"><span>Road</span><i>→</i><span>Storm drain</span><i>→</i><span>Stream</span><i>→</i><span>Wetland</span></div>
+          <div class="runoff-facts" role="img" aria-label="Road salt runoff path"><span>Road</span><i>→</i><span>Storm drain</span><i>→</i><span>Stream</span><i>→</i><span>Wetland</span></div>
           <p class="runoff-note">Dissolved salt may be invisible even when it raises conductivity and TDS.</p>
         </div>
         <div class="runoff-video reveal delay-1">
@@ -90,10 +90,10 @@
       <div class="wrap">
         <div class="section-head centered reveal"><div class="kicker light">04 · TEAM TACOCAT WATER QUALITY</div><h2>Four clues beneath the surface.</h2><p>Each measurement tells a different part of the water’s story. No readings are shown yet—Team Tacocat’s sensor system is still being developed.</p></div>
         <div class="quality-grid">
-          <article class="quality-card reveal" data-color="blue"><div class="quality-top"><span class="quality-symbol">pH</span><span class="status-dot">MEASUREMENT</span></div><h3>Acidity & alkalinity</h3><p>pH shows how acidic or basic the water is. Large changes can make the environment difficult for aquatic organisms.</p><button class="learn-more" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Tracking pH over time can help reveal changes worth investigating. A single measurement cannot explain the cause.</p></div></article>
-          <article class="quality-card reveal delay-1" data-color="sand"><div class="quality-top"><span class="quality-symbol">TDS</span><span class="status-dot">MEASUREMENT</span></div><h3>Conductivity / TDS</h3><p>Conductivity shows how well water carries an electrical current because of dissolved ions. TDS estimates the amount of dissolved substances.</p><button class="learn-more" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Changes over time can point to shifts in dissolved materials entering the water. TDS is often estimated from conductivity.</p></div></article>
-          <article class="quality-card reveal delay-2" data-color="green"><div class="quality-top"><span class="quality-symbol">DO</span><span class="status-dot">MEASUREMENT</span></div><h3>Dissolved oxygen</h3><p>Dissolved oxygen is the oxygen available in water for fish, insects, and other aquatic organisms to breathe.</p><button class="learn-more" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>DO can change with temperature, water movement, plant activity, and decomposition, so repeated measurements provide useful context.</p></div></article>
-          <article class="quality-card reveal delay-3" data-color="coral"><div class="quality-top"><span class="quality-symbol">°C</span><span class="status-dot">MEASUREMENT</span></div><h3>Water temperature</h3><p>Temperature affects aquatic organisms and can influence dissolved oxygen and other environmental conditions.</p><button class="learn-more" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Temperature naturally changes with time, season, shade, weather, and location—another reason trends are more useful than one reading.</p></div></article>
+          <article class="quality-card reveal" data-color="blue"><div class="quality-top"><span class="quality-symbol">pH</span><span class="status-dot">MEASUREMENT</span></div><h3>Acidity &amp; alkalinity</h3><p>pH shows how acidic or basic the water is. Large changes can make the environment difficult for aquatic organisms.</p><button class="learn-more" type="button" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Tracking pH over time can help reveal changes worth investigating. A single measurement cannot explain the cause.</p></div></article>
+          <article class="quality-card reveal delay-1" data-color="sand"><div class="quality-top"><span class="quality-symbol">TDS</span><span class="status-dot">MEASUREMENT</span></div><h3>Conductivity / TDS</h3><p>Conductivity shows how well water carries an electrical current because of dissolved ions. TDS estimates the amount of dissolved substances.</p><button class="learn-more" type="button" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Changes over time can point to shifts in dissolved materials entering the water. TDS is often estimated from conductivity.</p></div></article>
+          <article class="quality-card reveal delay-2" data-color="green"><div class="quality-top"><span class="quality-symbol">DO</span><span class="status-dot">MEASUREMENT</span></div><h3>Dissolved oxygen</h3><p>Dissolved oxygen is the oxygen available in water for fish, insects, and other aquatic organisms to breathe.</p><button class="learn-more" type="button" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>DO can change with temperature, water movement, plant activity, and decomposition, so repeated measurements provide useful context.</p></div></article>
+          <article class="quality-card reveal delay-3" data-color="coral"><div class="quality-top"><span class="quality-symbol">°C</span><span class="status-dot">MEASUREMENT</span></div><h3>Water temperature</h3><p>Temperature affects aquatic organisms and can influence dissolved oxygen and other environmental conditions.</p><button class="learn-more" type="button" aria-expanded="false">Learn more <span>+</span></button><div class="learn-detail"><p>Temperature naturally changes with time, season, shade, weather, and location—another reason trends are more useful than one reading.</p></div></article>
         </div>
       </div>
     </section>
@@ -101,7 +101,7 @@
     <section class="section-pad flow-section">
       <div class="wrap flow-layout">
         <div class="flow-copy reveal"><div class="kicker">03 · THE TACOCAT PROCESS</div><h2>Turning signals into stewardship.</h2><p>Team Tacocat’s goal is not only to collect measurements. We want to turn environmental data into information that people can understand and use to help protect the Great Swamp.</p><div class="quote">“Technology becomes powerful when it helps a community understand what’s happening.” <b>— Team Tacocat</b></div></div>
-        <div class="flow" aria-label="Water flows to sensors, Raspberry Pi, data, website, community, and action">
+        <div class="flow" role="img" aria-label="Water flows to sensors, Raspberry Pi, data, website, community, and action">
           <div class="flow-item reveal"><b>01</b><span class="flow-icon">≈</span><strong>Water</strong><small>The ecosystem</small></div><i>→</i><div class="flow-item reveal delay-1"><b>02</b><span class="flow-icon">⌁</span><strong>Sensors</strong><small>Observe conditions</small></div><i>→</i><div class="flow-item reveal delay-2"><b>03</b><span class="flow-icon">▦</span><strong>Raspberry Pi</strong><small>Collect signals</small></div><i>→</i><div class="flow-item reveal"><b>04</b><span class="flow-icon">∷</span><strong>Data</strong><small>Organize patterns</small></div><i>→</i><div class="flow-item reveal delay-1"><b>05</b><span class="flow-icon">▤</span><strong>Website</strong><small>Explain clearly</small></div><i>→</i><div class="flow-item reveal delay-2"><b>06</b><span class="flow-icon">◎</span><strong>Community</strong><small>Learn together</small></div><i>→</i><div class="flow-item action reveal delay-3"><b>07</b><span class="flow-icon">↗</span><strong>Action</strong><small>Help protect</small></div>
         </div>
       </div>
@@ -119,10 +119,10 @@
 
     <section class="section-pad monitoring" id="monitoring">
       <div class="wrap"><div class="monitor-head reveal"><div><div class="kicker">01 · LIVE SENSOR MONITORING</div><h2>Coming Soon: Live Water Monitoring</h2><p>Team Tacocat is developing a monitoring system using sensors and a Raspberry Pi. Future versions may display trends, unusual changes, and comparisons between locations—once real sensors are deployed.</p></div><span class="dev-badge"><i></i> Team Tacocat sensor system</span></div>
-        <div class="monitor-grid"><button class="sensor-card" type="button" data-monitor-open="ph" aria-haspopup="dialog"><span>pH</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="conductivity" aria-haspopup="dialog"><span>Conductivity / TDS</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="oxygen" aria-haspopup="dialog"><span>Dissolved Oxygen (DO)</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="temperature" aria-haspopup="dialog"><span>Water Temperature</span><div class="waiting" aria-hidden="true"><i></i><i></i><i></i></div><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button></div>
+        <div class="monitor-grid"><button class="sensor-card" type="button" data-monitor-open="ph" aria-haspopup="dialog"><span>pH</span><span class="waiting" aria-hidden="true"><i></i><i></i><i></i></span><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="conductivity" aria-haspopup="dialog"><span>Conductivity / TDS</span><span class="waiting" aria-hidden="true"><i></i><i></i><i></i></span><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="oxygen" aria-haspopup="dialog"><span>Dissolved Oxygen (DO)</span><span class="waiting" aria-hidden="true"><i></i><i></i><i></i></span><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button><button class="sensor-card" type="button" data-monitor-open="temperature" aria-haspopup="dialog"><span>Water Temperature</span><span class="waiting" aria-hidden="true"><i></i><i></i><i></i></span><strong>Awaiting Sensor Deployment</strong><small>No live reading available</small><em>Open monitor ↗</em></button></div>
         <div class="team-intro reveal">
           <div><span class="team-label">Meet the team</span><h3>We’re Team Tacocat.</h3><span class="tacocat-stamp">TACOCAT × WATER × TECHNOLOGY</span></div>
-          <div><p>Team Tacocat is a FIRST LEGO League robotics team made up of curious, creative, and hardworking students who enjoy solving real-world problems together. Our team combines robotics, coding, research, and teamwork to develop innovative solutions. This year, we are especially interested in protecting local ecosystems and using technology to help people better understand and care for the environment.</p><div class="team-values" aria-label="Team Tacocat focus areas"><span>Science</span><span>Engineering</span><span>Community</span></div></div>
+          <div><p>Team Tacocat is a FIRST LEGO League robotics team made up of curious, creative, and hardworking students who enjoy solving real-world problems together. Our team combines robotics, coding, research, and teamwork to develop innovative solutions. This year, we are especially interested in protecting local ecosystems and using technology to help people better understand and care for the environment.</p><div class="team-values" role="group" aria-label="Team Tacocat focus areas"><span>Science</span><span>Engineering</span><span>Community</span></div></div>
         </div>
       </div>
     </section>
@@ -147,7 +147,7 @@
           <img src="assets/tacocat-right.png" alt="Team Tacocat’s taco cat mascot">
           <h2>Hello</h2>
           <p>Ask anything to begin</p>
-          <div class="tacochat-suggestions" aria-label="Suggested questions">
+          <div class="tacochat-suggestions" role="group" aria-label="Suggested questions">
             <button type="button" data-question="What is dissolved oxygen?">What is dissolved oxygen?</button>
             <button type="button" data-question="Tell me about Team Tacocat">Tell me about Team Tacocat</button>
             <button type="button" data-question="How does road salt reach wetlands?">How does road salt reach wetlands?</button>
@@ -158,7 +158,7 @@
       <form class="tacochat-form" id="tacochat-form">
         <label class="sr-only" for="tacochat-input">Write your message</label>
         <button class="tacochat-mic" id="tacochat-mic" type="button" aria-label="Ask with your voice" aria-pressed="false" title="Ask with your voice"><span aria-hidden="true">🎙</span></button>
-        <input id="tacochat-input" name="message" maxlength="300" autocomplete="off" placeholder="Write Your Message...">
+        <input id="tacochat-input" name="message" type="text" maxlength="300" autocomplete="off" placeholder="Write Your Message...">
         <button type="submit" aria-label="Send message"><span>➜</span></button>
       </form>
     </aside>
@@ -199,7 +199,7 @@
     <section class="section-pad involved" id="involved">
       <div class="wrap"><div class="section-head split reveal"><div><div class="kicker">08 · TAKE PART WITH TACOCAT</div><h2>Small actions.<br>Real ripple effects.</h2></div><p>Join Team Tacocat in learning how informed people can make thoughtful choices in their own communities.</p></div>
         <div class="actions-grid"><article><b>01</b><h3>Protect Streams</h3><p>Reduce litter and keep waste away from waterways.</p></article><article><b>02</b><h3>Reduce Runoff</h3><p>Limit unnecessary fertilizers and chemicals around homes.</p></article><article><b>03</b><h3>Observe</h3><p>Pay attention to changes in nearby streams and wetlands.</p></article><article><b>04</b><h3>Participate</h3><p>Join cleanups, citizen-science programs, or environmental projects.</p></article><article><b>05</b><h3>Learn</h3><p>Understand how wetlands protect wildlife and communities.</p></article></div>
-        <div class="report-layout reveal"><div class="report-copy"><span class="report-label">EMAIL TEAM TACOCAT</span><h3>Report What You See</h3><p>Share an observation directly with Team Tacocat. Submit the form and the report will be delivered—no email app required.</p><ul><li>Sent directly to Team Tacocat</li><li>Dated automatically</li><li>No visitor email required</li></ul><p class="report-address">cms.tacocatrobotics@gmail.com</p></div><form id="report-form" action="https://formspree.io/f/xkjogwky" method="POST"><label>What did you observe?<select id="report-observation" required><option value="">Choose an observation</option><option>Trash</option><option>Unusual algae</option><option>Cloudy or muddy water</option><option>Unusual water color</option><option>Bad smell</option><option>Wildlife</option><option>Dead or sick wildlife</option><option>Flooding</option><option>Other</option></select></label><label>Location<input id="report-location" required placeholder="e.g. trail or landmark" autocomplete="off"></label><label>Message<textarea id="report-message" required rows="5" placeholder="Describe what you noticed..."></textarea></label><button class="button primary" type="submit">Send report <span>→</span></button><div class="form-success" role="status">Report sent successfully. Thank you for helping Team Tacocat!</div><div class="form-error" role="alert">The report could not be sent. Please check your connection and try again.</div></form></div>
+        <div class="report-layout reveal"><div class="report-copy"><span class="report-label">EMAIL TEAM TACOCAT</span><h3>Report What You See</h3><p>Share an observation directly with Team Tacocat. Submit the form and the report will be delivered—no email app required.</p><ul><li>Sent directly to Team Tacocat</li><li>Dated automatically</li><li>No visitor email required</li></ul><p class="report-address">cms.tacocatrobotics@gmail.com</p></div><form id="report-form" action="https://formspree.io/f/xkjogwky" method="POST"><label>What did you observe?<select id="report-observation" name="observation" required><option value="">Choose an observation</option><option>Trash</option><option>Unusual algae</option><option>Cloudy or muddy water</option><option>Unusual water color</option><option>Bad smell</option><option>Wildlife</option><option>Dead or sick wildlife</option><option>Flooding</option><option>Other</option></select></label><label>Location<input id="report-location" name="location" type="text" required placeholder="e.g. trail or landmark" autocomplete="off"></label><label>Message<textarea id="report-message" name="user-message" required rows="5" placeholder="Describe what you noticed..."></textarea></label><button class="button primary" type="submit">Send report <span>→</span></button><div class="form-success" role="status">Report sent successfully. Thank you for helping Team Tacocat!</div><div class="form-error" role="alert">The report could not be sent. Please check your connection and try again.</div></form></div>
       </div>
     </section>
 
@@ -207,7 +207,7 @@
 
   <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-title">
     <div class="certificate-controls">
-      <label for="certificate-name">Name on certificate<input id="certificate-name" maxlength="60" autocomplete="name" placeholder="Enter your name"></label>
+      <label>Name on certificate<input id="certificate-name" type="text" maxlength="60" autocomplete="name" placeholder="Enter your name"></label>
       <button class="button primary" id="print-certificate" type="button" disabled>Print or save PDF</button>
       <button class="certificate-close" type="button" aria-label="Close certificate">×</button>
     </div>
@@ -224,7 +224,7 @@
     </article>
   </dialog>
   <footer><div class="wrap footer-grid"><div><a class="brand footer-brand" href="#home"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Great Swamp<br><b>Water Watch</b></span></a><p>A Team Tacocat project.<br>Monitoring water. Protecting biodiversity.</p></div><div><span>EXPLORE</span><a href="#protect">Why protect?</a><a href="#quality">Water quality</a><a href="#wildlife">Wildlife</a></div><div><span>PARTICIPATE</span><a href="#detective">Water Detective</a><a href="#quiz">Knowledge Quiz</a><a href="#involved">Get involved</a></div><div class="footer-note"><span>PROJECT STATUS</span><b><i></i> Team Tacocat sensor system</b><p>Live sensor data will appear after the system is deployed.</p></div></div><div class="wrap footer-bottom"><span>Team Tacocat · FLL Innovation Project</span><span>Built to inspire curiosity and stewardship.</span></div></footer>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
   <script src="tacochat.js?v=19"></script>
 </body>
 </html>
