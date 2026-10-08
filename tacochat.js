@@ -33,33 +33,24 @@ const tacoChatAnswers=[
 
 const TacoChatSpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 const tacoChatCanSpeak='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;
+const tacoChatCanPlayAudio='Audio' in window;
 let tacoChatRecognition=null;
 let tacoChatListening=false;
 let tacoChatSubmitTranscript=false;
 let tacoChatReadAloud=false;
 let tacoChatVoices=[];
+let tacoChatAudio=null;
+let tacoChatAudioUrl='';
 
 function refreshTacoChatVoices(){
   tacoChatVoices=window.speechSynthesis?.getVoices()||[];
 }
 
 function getTacoChatVoice(){
-  const scoreVoice=voice=>{
-    if(!/^en(?:-|_)/i.test(voice.lang))return -1000;
-    const name=voice.name.toLowerCase();
-    let score=0;
-    if(/natural|neural/.test(name))score+=100;
-    if(/online/.test(name)||voice.localService===false)score+=35;
-    if(/microsoft/.test(name))score+=25;
-    if(/aria|ava|andrew|brian|emma|guy|jenny|sonia|ryan/.test(name))score+=15;
-    if(/^en-us$/i.test(voice.lang))score+=10;
-    if(/espeak|compact|sam/.test(name))score-=30;
-    return score;
-  };
-  return tacoChatVoices
-    .map((voice,index)=>({voice,index,score:scoreVoice(voice)}))
-    .filter(candidate=>candidate.score>-1000)
-    .sort((a,b)=>b.score-a.score||a.index-b.index)[0]?.voice||null;
+  const englishVoices=tacoChatVoices.filter(voice=>/^en(?:-|_)/i.test(voice.lang));
+  return englishVoices.find(voice=>/natural|neural/i.test(voice.name))
+    ||englishVoices.find(voice=>/microsoft.*(?:aria|ava|jenny|sonia)/i.test(voice.name))
+    ||null;
 }
 
 if(tacoChatCanSpeak){
@@ -77,9 +68,14 @@ function addTacoChatNotice(text){
   tacoChatMessages.scrollTop=tacoChatMessages.scrollHeight;
 }
 
-function speakTacoChat(text){
-  if(!tacoChatReadAloud||!tacoChatCanSpeak)return;
-  window.speechSynthesis.cancel();
+function stopTacoChatSpeech(){
+  window.speechSynthesis?.cancel();
+  if(tacoChatAudio){tacoChatAudio.pause();tacoChatAudio=null}
+  if(tacoChatAudioUrl){URL.revokeObjectURL(tacoChatAudioUrl);tacoChatAudioUrl=''}
+}
+
+function speakWithBrowserVoice(text){
+  if(!tacoChatCanSpeak)return;
   const speech=new SpeechSynthesisUtterance(text);
   speech.lang='en-US';
   const naturalVoice=getTacoChatVoice();
@@ -87,6 +83,32 @@ function speakTacoChat(text){
   speech.rate=.98;
   speech.pitch=1;
   window.speechSynthesis.speak(speech);
+}
+
+async function speakTacoChat(text){
+  if(!tacoChatReadAloud||!tacoChatCanPlayAudio)return;
+  stopTacoChatSpeech();
+  const spokenText=String(text).replace(/\s*meow!?\s*$/i,'').trim();
+  if(!spokenText)return;
+  try{
+    const response=await fetch(`${tacoChatEndpoint}speech`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text:spokenText})
+    });
+    if(!response.ok)throw new Error('Voice request failed');
+    tacoChatAudioUrl=URL.createObjectURL(await response.blob());
+    tacoChatAudio=new Audio(tacoChatAudioUrl);
+    tacoChatAudio.addEventListener('ended',()=>{
+      if(tacoChatAudioUrl)URL.revokeObjectURL(tacoChatAudioUrl);
+      tacoChatAudio=null;
+      tacoChatAudioUrl='';
+    },{once:true});
+    await tacoChatAudio.play();
+  }catch{
+    stopTacoChatSpeech();
+    speakWithBrowserVoice(spokenText);
+  }
 }
 
 function setTacoChatListening(listening){
@@ -120,21 +142,21 @@ if(TacoChatSpeechRecognition){
   });
 }
 
-if(!tacoChatCanSpeak){tacoChatSpeakToggle.hidden=true}
+if(!tacoChatCanPlayAudio){tacoChatSpeakToggle.hidden=true}
 tacoChatSpeakToggle?.addEventListener('click',()=>{
   tacoChatReadAloud=!tacoChatReadAloud;
   tacoChatSpeakToggle.setAttribute('aria-pressed',String(tacoChatReadAloud));
   tacoChatSpeakToggle.setAttribute('aria-label',tacoChatReadAloud?'Stop reading answers aloud':'Read TacoChat answers aloud');
   tacoChatSpeakToggle.title=tacoChatReadAloud?'Voice replies on':'Read answers aloud';
   tacoChatSpeakToggle.textContent=tacoChatReadAloud?'🔊':'🔈';
-  if(!tacoChatReadAloud)window.speechSynthesis?.cancel();
+  if(!tacoChatReadAloud)stopTacoChatSpeech();
   else addTacoChatNotice('Natural voice replies are on.');
 });
 
 tacoChatMic?.addEventListener('click',()=>{
   if(!tacoChatRecognition){addTacoChatNotice('Voice questions are not supported in this browser. You can still type your question.');return}
   if(tacoChatListening){tacoChatSubmitTranscript=false;tacoChatRecognition.stop();return}
-  window.speechSynthesis?.cancel();
+  stopTacoChatSpeech();
   try{tacoChatRecognition.start()}catch(error){addTacoChatNotice('The microphone is already starting. Please try again in a moment.')}
 });
 
@@ -146,7 +168,7 @@ function setTacoChat(open){
   if(open)setTimeout(()=>tacoChatInput?.focus(),50);
   else{
     if(tacoChatListening){tacoChatSubmitTranscript=false;tacoChatRecognition?.abort();setTacoChatListening(false)}
-    window.speechSynthesis?.cancel();
+    stopTacoChatSpeech();
     tacoChatLauncher.focus();
   }
 }
