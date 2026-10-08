@@ -37,6 +37,35 @@ let tacoChatRecognition=null;
 let tacoChatListening=false;
 let tacoChatSubmitTranscript=false;
 let tacoChatReadAloud=false;
+let tacoChatVoices=[];
+
+function refreshTacoChatVoices(){
+  tacoChatVoices=window.speechSynthesis?.getVoices()||[];
+}
+
+function getTacoChatVoice(){
+  const scoreVoice=voice=>{
+    if(!/^en(?:-|_)/i.test(voice.lang))return -1000;
+    const name=voice.name.toLowerCase();
+    let score=0;
+    if(/natural|neural/.test(name))score+=100;
+    if(/online/.test(name)||voice.localService===false)score+=35;
+    if(/microsoft/.test(name))score+=25;
+    if(/aria|ava|andrew|brian|emma|guy|jenny|sonia|ryan/.test(name))score+=15;
+    if(/^en-us$/i.test(voice.lang))score+=10;
+    if(/espeak|compact|sam/.test(name))score-=30;
+    return score;
+  };
+  return tacoChatVoices
+    .map((voice,index)=>({voice,index,score:scoreVoice(voice)}))
+    .filter(candidate=>candidate.score>-1000)
+    .sort((a,b)=>b.score-a.score||a.index-b.index)[0]?.voice||null;
+}
+
+if(tacoChatCanSpeak){
+  refreshTacoChatVoices();
+  window.speechSynthesis.addEventListener?.('voiceschanged',refreshTacoChatVoices);
+}
 
 function addTacoChatNotice(text){
   tacoChatMessages.querySelectorAll('.tacochat-notice').forEach(notice=>notice.remove());
@@ -53,8 +82,10 @@ function speakTacoChat(text){
   window.speechSynthesis.cancel();
   const speech=new SpeechSynthesisUtterance(text);
   speech.lang='en-US';
-  speech.rate=.96;
-  speech.pitch=1.08;
+  const naturalVoice=getTacoChatVoice();
+  if(naturalVoice)speech.voice=naturalVoice;
+  speech.rate=.98;
+  speech.pitch=1;
   window.speechSynthesis.speak(speech);
 }
 
@@ -97,7 +128,7 @@ tacoChatSpeakToggle?.addEventListener('click',()=>{
   tacoChatSpeakToggle.title=tacoChatReadAloud?'Voice replies on':'Read answers aloud';
   tacoChatSpeakToggle.textContent=tacoChatReadAloud?'🔊':'🔈';
   if(!tacoChatReadAloud)window.speechSynthesis?.cancel();
-  else addTacoChatNotice('Voice replies are on.');
+  else addTacoChatNotice('Natural voice replies are on.');
 });
 
 tacoChatMic?.addEventListener('click',()=>{
