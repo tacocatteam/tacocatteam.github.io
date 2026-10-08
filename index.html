@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" href="assets/pwa-icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/pwa-icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
   <link rel="stylesheet" href="timeline.css">
   <link rel="stylesheet" href="monitor-modal.css?v=6">
   <link rel="stylesheet" href="tacochat.css?v=10">
@@ -27,7 +27,7 @@
       <a class="brand" href="#home" aria-label="Team Tacocat home"><span class="brand-mark">≈</span><span><small>FLL ROBOTICS TEAM</small>Team<br><b>Tacocat</b></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span><span class="sr-only">Open menu</span></button>
       <div class="nav-links" id="nav-links">
-        <a href="#home">Home</a><a href="#quality">Water Quality</a><a href="#protect">Why Protect?</a><a href="#timeline">Timeline</a><a href="#detective">Water Detective</a><a href="#quiz">Quiz</a><a href="#achievements">Achievements</a><a href="#wildlife">Wildlife</a><a href="#involved">Get Involved</a><button class="pwa-install" id="pwa-install" type="button" hidden>Install app</button>
+        <a href="#home">Home</a><a href="#quality">Water Quality</a><a href="#protect">Why Protect?</a><a href="#timeline">Timeline</a><a href="#detective">Water Detective</a><a href="#quiz">Quiz</a><a href="#achievements">Achievements</a><a href="#wildlife">Wildlife</a><a href="#involved">Get Involved</a><button class="classroom-open" id="classroom-open" type="button">Classroom</button><button class="pwa-install" id="pwa-install" type="button" hidden>Install app</button>
       </div>
     </nav>
   </header>
@@ -205,6 +205,21 @@
 
   </main>
 
+  <dialog class="classroom-dialog" id="classroom-dialog" aria-labelledby="classroom-title">
+    <div class="classroom-top">
+      <div><span>TEACHER-FRIENDLY GUIDE</span><h2 id="classroom-title">Classroom Mode</h2></div>
+      <button class="classroom-close" type="button" aria-label="Close Classroom Mode">×</button>
+    </div>
+    <p class="classroom-intro">A quick lesson path using activities already on this website. Choose any step or complete all three in order.</p>
+    <div class="classroom-steps">
+      <a href="#protect"><b>01</b><span><strong>Explore</strong>Why wetlands matter</span><i>5 min</i></a>
+      <a href="#runoff"><b>02</b><span><strong>Discuss</strong>Follow road-salt runoff</span><i>5 min</i></a>
+      <a href="#detective"><b>03</b><span><strong>Challenge</strong>Solve Water Detective cases</span><i>10 min</i></a>
+    </div>
+    <div class="classroom-prompt"><strong>Discussion prompt</strong><p>How can one change in water quality affect an entire wetland ecosystem?</p></div>
+    <a class="button primary classroom-quiz" href="#quiz">Finish with the knowledge quiz <span>→</span></a>
+  </dialog>
+
   <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-title">
     <div class="certificate-controls">
       <label>Name on certificate<input id="certificate-name" type="text" maxlength="60" autocomplete="name" placeholder="Enter your name"></label>
@@ -224,7 +239,7 @@
     </article>
   </dialog>
   <footer><div class="wrap footer-grid"><div><a class="brand footer-brand" href="#home"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Great Swamp<br><b>Water Watch</b></span></a><p>A Team Tacocat project.<br>Monitoring water. Protecting biodiversity.</p></div><div><span>EXPLORE</span><a href="#protect">Why protect?</a><a href="#quality">Water quality</a><a href="#wildlife">Wildlife</a></div><div><span>PARTICIPATE</span><a href="#detective">Water Detective</a><a href="#quiz">Knowledge Quiz</a><a href="#involved">Get involved</a></div><div class="footer-note"><span>PROJECT STATUS</span><b><i></i> Team Tacocat sensor system</b><p>Live sensor data will appear after the system is deployed.</p></div></div><div class="wrap footer-bottom"><span>Team Tacocat · FLL Innovation Project</span><span>Built to inspire curiosity and stewardship.</span></div></footer>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
   <script src="tacochat.js?v=19"></script>
 </body>
 </html>
