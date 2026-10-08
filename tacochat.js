@@ -6,6 +6,8 @@ const tacoChatInput=document.getElementById('tacochat-input');
 const tacoChatMessages=document.getElementById('tacochat-messages');
 const tacoChatEmpty=document.getElementById('tacochat-empty');
 const tacoChatSubmit=tacoChatForm?.querySelector('button[type="submit"]');
+const tacoChatMic=document.getElementById('tacochat-mic');
+const tacoChatSpeakToggle=document.getElementById('tacochat-speak-toggle');
 const tacoChatSuggestions=tacoChatPanel?.querySelectorAll('.tacochat-suggestions button[data-question]');
 const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
 const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
@@ -29,13 +31,93 @@ const tacoChatAnswers=[
   {terms:['tacocat','team','fll','innovation project'],answer:'Team Tacocat is a FIRST LEGO League robotics team developing a Great Swamp water-monitoring project with four sensors and a Raspberry Pi. Meow!'}
 ];
 
+const TacoChatSpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+const tacoChatCanSpeak='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;
+let tacoChatRecognition=null;
+let tacoChatListening=false;
+let tacoChatSubmitTranscript=false;
+let tacoChatReadAloud=false;
+
+function addTacoChatNotice(text){
+  tacoChatMessages.querySelectorAll('.tacochat-notice').forEach(notice=>notice.remove());
+  const notice=document.createElement('div');
+  notice.className='tacochat-notice';
+  notice.setAttribute('role','status');
+  notice.textContent=text;
+  (document.getElementById('tacochat-empty')||tacoChatMessages).append(notice);
+  tacoChatMessages.scrollTop=tacoChatMessages.scrollHeight;
+}
+
+function speakTacoChat(text){
+  if(!tacoChatReadAloud||!tacoChatCanSpeak)return;
+  window.speechSynthesis.cancel();
+  const speech=new SpeechSynthesisUtterance(text);
+  speech.lang='en-US';
+  speech.rate=.96;
+  speech.pitch=1.08;
+  window.speechSynthesis.speak(speech);
+}
+
+function setTacoChatListening(listening){
+  tacoChatListening=listening;
+  tacoChatMic?.classList.toggle('listening',listening);
+  tacoChatMic?.setAttribute('aria-pressed',String(listening));
+  tacoChatMic?.setAttribute('aria-label',listening?'Stop listening':'Ask with your voice');
+  if(tacoChatInput)tacoChatInput.placeholder=listening?'Listening…':'Write Your Message...';
+}
+
+if(TacoChatSpeechRecognition){
+  tacoChatRecognition=new TacoChatSpeechRecognition();
+  tacoChatRecognition.lang='en-US';
+  tacoChatRecognition.continuous=false;
+  tacoChatRecognition.interimResults=true;
+  tacoChatRecognition.maxAlternatives=1;
+  tacoChatRecognition.addEventListener('start',()=>{tacoChatSubmitTranscript=false;setTacoChatListening(true)});
+  tacoChatRecognition.addEventListener('result',event=>{
+    let transcript='';
+    for(let index=event.resultIndex;index<event.results.length;index++)transcript+=event.results[index][0].transcript;
+    tacoChatInput.value=transcript.trim();
+    tacoChatSubmitTranscript=event.results[event.results.length-1].isFinal&&Boolean(tacoChatInput.value);
+  });
+  tacoChatRecognition.addEventListener('error',event=>{
+    tacoChatSubmitTranscript=false;
+    if(event.error!=='aborted')addTacoChatNotice(event.error==='not-allowed'?'Microphone permission was blocked. Allow microphone access, then try again.':'I could not hear that. Please try again or type your question.');
+  });
+  tacoChatRecognition.addEventListener('end',()=>{
+    setTacoChatListening(false);
+    if(tacoChatSubmitTranscript){tacoChatSubmitTranscript=false;tacoChatForm?.requestSubmit()}
+  });
+}
+
+if(!tacoChatCanSpeak){tacoChatSpeakToggle.hidden=true}
+tacoChatSpeakToggle?.addEventListener('click',()=>{
+  tacoChatReadAloud=!tacoChatReadAloud;
+  tacoChatSpeakToggle.setAttribute('aria-pressed',String(tacoChatReadAloud));
+  tacoChatSpeakToggle.setAttribute('aria-label',tacoChatReadAloud?'Stop reading answers aloud':'Read TacoChat answers aloud');
+  tacoChatSpeakToggle.title=tacoChatReadAloud?'Voice replies on':'Read answers aloud';
+  tacoChatSpeakToggle.textContent=tacoChatReadAloud?'🔊':'🔈';
+  if(!tacoChatReadAloud)window.speechSynthesis?.cancel();
+  else addTacoChatNotice('Voice replies are on.');
+});
+
+tacoChatMic?.addEventListener('click',()=>{
+  if(!tacoChatRecognition){addTacoChatNotice('Voice questions are not supported in this browser. You can still type your question.');return}
+  if(tacoChatListening){tacoChatSubmitTranscript=false;tacoChatRecognition.stop();return}
+  window.speechSynthesis?.cancel();
+  try{tacoChatRecognition.start()}catch(error){addTacoChatNotice('The microphone is already starting. Please try again in a moment.')}
+});
+
 function setTacoChat(open){
   if(!tacoChatPanel||!tacoChatLauncher)return;
   tacoChatPanel.hidden=!open;
   tacoChatLauncher.setAttribute('aria-expanded',String(open));
   tacoChatLauncher.setAttribute('aria-label',open?'TacoChat is open':'Open TacoChat');
   if(open)setTimeout(()=>tacoChatInput?.focus(),50);
-  else tacoChatLauncher.focus();
+  else{
+    if(tacoChatListening){tacoChatSubmitTranscript=false;tacoChatRecognition?.abort();setTacoChatListening(false)}
+    window.speechSynthesis?.cancel();
+    tacoChatLauncher.focus();
+  }
 }
 
 function addTacoChatMessage(text,fromUser=false){
@@ -146,6 +228,7 @@ tacoChatForm?.addEventListener('submit',async event=>{
   const reply=await getTacoChatReply(message);
   thinking.remove();
   addTacoChatMessage(reply);
+  speakTacoChat(reply);
   addTacoChatFollowUps(getTacoChatFollowUps(message));
   tacoChatInput.disabled=false;
   tacoChatSubmit.disabled=false;
