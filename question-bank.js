@@ -52,10 +52,29 @@
     ["How can students practice environmental stewardship?", "A class wants to help a nearby wetland. Which plan best shows stewardship?", "Learn, reduce harmful runoff, and join safe community efforts", ["Disturb wildlife for photos", "Pour test chemicals outside", "Assume one cleanup solves every problem"], "Stewardship means making informed, responsible choices and caring for shared environments over time."],
   ];
 
-  const bank = concepts.flatMap(([question, scenario, correct, wrong, explanation], index) => [
-    { id: `${index + 1}a`, q: question, a: [correct, ...wrong], correct: 0, e: explanation },
-    { id: `${index + 1}b`, q: scenario, a: [correct, ...wrong], correct: 0, e: explanation },
-  ]);
+  const promptStyles = [
+    (question) => question,
+    (_, scenario) => scenario,
+    (question) => `Quick review: ${question}`,
+    (_, scenario) => `Apply what you learned: ${scenario}`,
+    (question) => `Choose the strongest science answer: ${question}`,
+    (_, scenario) => `Use the evidence in this situation: ${scenario}`,
+    (question) => `Wetland knowledge check: ${question}`,
+    (_, scenario) => `Investigation challenge: ${scenario}`,
+    (question) => `Think like a water scientist: ${question}`,
+    (_, scenario) => `Student scientist scenario: ${scenario}`,
+  ];
+
+  const bank = concepts.flatMap(
+    ([question, scenario, correct, wrong, explanation], conceptIndex) =>
+      promptStyles.map((buildPrompt, styleIndex) => ({
+        id: `${conceptIndex + 1}-${styleIndex + 1}`,
+        q: buildPrompt(question, scenario),
+        a: [correct, ...wrong],
+        correct: 0,
+        e: explanation,
+      })),
+  );
 
   window.TacoCatQuestionBank = Object.freeze(bank);
 })();
