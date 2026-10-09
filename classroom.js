@@ -121,6 +121,21 @@ const knowledgeQuestions = [
   },
 ];
 
+// Mission controls scroll inside Classroom Mode instead of navigating away.
+document.querySelectorAll("[data-mission]").forEach((control) => {
+  control.addEventListener("click", () => {
+    const destination = document.getElementById(control.dataset.mission);
+    if (!destination) return;
+    destination.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", `#${destination.id}`);
+    destination.querySelector("h2")?.focus({ preventScroll: true });
+  });
+});
+
+document.querySelectorAll(".lesson h2").forEach((heading) => {
+  heading.tabIndex = -1;
+});
+
 function shuffle(items) {
   const copy = [...items];
   for (let index = copy.length - 1; index > 0; index--) {

@@ -11,14 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="assets/pwa-icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="classroom.css?v=2">
+  <link rel="stylesheet" href="classroom.css?v=3">
 </head>
 <body>
   <a class="skip" href="#missions">Skip to missions</a>
   <header class="classroom-header">
     <nav class="nav wrap" aria-label="Classroom navigation">
-      <a class="brand" href="index.html"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Great Swamp Water Watch</span></a>
-      <a class="back-link" href="index.html">← Back to main site</a>
+      <div class="brand"><span class="brand-mark">≈</span><span><small>TEAM TACOCAT</small>Student Science Lab</span></div>
+      <a class="back-link" href="#missions">Mission menu ↓</a>
     </nav>
     <div class="hero wrap">
       <div class="hero-copy">
@@ -37,19 +37,20 @@
 
   <main>
     <section class="missions wrap" id="missions" aria-labelledby="missions-title">
-      <div class="section-heading"><div><span>PICK YOUR PATH</span><h2 id="missions-title">What do you want to discover?</h2></div><p>Start anywhere. Every mission is right here on this classroom page.</p></div>
+      <div class="section-heading"><div><span>PICK YOUR PATH</span><h2 id="missions-title">What do you want to discover?</h2></div><p>Choose a card to move to that activity. You will stay in the Student Science Lab—nothing here sends you back to the main website.</p></div>
       <div class="mission-grid">
-        <a class="mission blue" href="#mission-wetland"><b>01</b><span class="mission-icon" aria-hidden="true">♧</span><h3>Wetland Explorer</h3><p>Discover eight reasons a wetland is much more than water.</p><strong>Explore · 5 min →</strong></a>
-        <a class="mission yellow" href="#mission-runoff"><b>02</b><span class="mission-icon" aria-hidden="true">↝</span><h3>Salt Tracker</h3><p>Follow road salt from pavement to storm drains, streams, and wetlands.</p><strong>Watch · 5 min →</strong></a>
-        <a class="mission green" href="#mission-sensors"><b>03</b><span class="mission-icon" aria-hidden="true">≈</span><h3>Sensor Decoder</h3><p>Learn what pH, conductivity, oxygen, and temperature can reveal.</p><strong>Investigate · 7 min →</strong></a>
-        <a class="mission coral" href="#mission-detective"><b>04</b><span class="mission-icon" aria-hidden="true">⌕</span><h3>Water Detective</h3><p>Solve six cases by choosing what a careful scientist should do next.</p><strong>Play · 10 min →</strong></a>
-        <a class="mission purple" href="#mission-quiz"><b>05</b><span class="mission-icon" aria-hidden="true">?</span><h3>Quiz Champion</h3><p>Test your wetland knowledge and see how many clues you remember.</p><strong>Challenge · 5 min →</strong></a>
-        <a class="mission sky" href="#mission-badges"><b>06</b><span class="mission-icon" aria-hidden="true">★</span><h3>Badge Collector</h3><p>Check your achievements and unlock a Water Detective certificate.</p><strong>View rewards →</strong></a>
+        <button class="mission blue" type="button" data-mission="mission-wetland"><b>01</b><span class="mission-icon" aria-hidden="true">♧</span><h3>Wetland Explorer</h3><p>Explore eight jobs wetlands perform, then explain how one job helps wildlife or people.</p><strong>Read &amp; reveal · 8 min →</strong></button>
+        <button class="mission yellow" type="button" data-mission="mission-runoff"><b>02</b><span class="mission-icon" aria-hidden="true">↝</span><h3>Salt Tracker</h3><p>Follow dissolved road salt from pavement to a wetland and look for evidence along the route.</p><strong>Watch &amp; trace · 7 min →</strong></button>
+        <button class="mission green" type="button" data-mission="mission-sensors"><b>03</b><span class="mission-icon" aria-hidden="true">≈</span><h3>Sensor Decoder</h3><p>Learn what four water-quality sensors measure and why scientists compare their clues.</p><strong>Investigate · 10 min →</strong></button>
+        <button class="mission coral" type="button" data-mission="mission-detective"><b>04</b><span class="mission-icon" aria-hidden="true">⌕</span><h3>Water Detective</h3><p>Solve six evidence-based cases by choosing the safest and most scientific next step.</p><strong>Solve cases · 10 min →</strong></button>
+        <button class="mission purple" type="button" data-mission="mission-quiz"><b>05</b><span class="mission-icon" aria-hidden="true">?</span><h3>Quiz Champion</h3><p>Check your understanding, read the explanation after every answer, and improve your score.</p><strong>Take the quiz · 7 min →</strong></button>
+        <button class="mission sky" type="button" data-mission="mission-badges"><b>06</b><span class="mission-icon" aria-hidden="true">★</span><h3>Badge Collector</h3><p>Review your progress, unlock achievement badges, and create a completion certificate.</p><strong>View rewards →</strong></button>
       </div>
     </section>
 
     <section class="lesson wetland-lesson" id="mission-wetland" aria-labelledby="wetland-title">
-      <div class="wrap"><div class="lesson-head"><span>MISSION 01 · EXPLORE</span><h2 id="wetland-title">A wetland is more than water.</h2><p>Open the cards to discover eight jobs performed by a healthy wetland.</p></div>
+      <div class="wrap"><div class="lesson-head"><span>MISSION 01 · EXPLORE</span><h2 id="wetland-title">A wetland is more than water.</h2><p>A wetland is an ecosystem where water shapes the soil, plants, animals, and tiny organisms living together. Open every card, choose the job that surprises you most, and be ready to explain why it matters.</p></div>
+        <div class="student-brief"><div><small>LEARNING GOAL</small><strong>I can explain at least three ways a wetland helps an ecosystem.</strong></div><div><small>YOUR TASK</small><strong>Open all eight cards and compare their jobs.</strong></div><div><small>KEY WORDS</small><strong>habitat · sediment · erosion · nutrients</strong></div></div>
         <div class="fact-grid">
           <details><summary><b>♧</b><span>A Living Neighborhood</span></summary><p>Open water, muddy edges, plants, tree roots, and damp soil provide food, shelter, nesting places, and breeding areas for many species.</p></details>
           <details><summary><b>≈</b><span>A Natural Water Filter</span></summary><p>Slow-moving water lets sediment settle. Wetland plants and soils can also hold or transform some excess nutrients.</p></details>
@@ -60,29 +61,30 @@
           <details><summary><b>↻</b><span>A Nutrient Recycler</span></summary><p>Plants, fungi, bacteria, and tiny animals break down dead material and return nutrients to the food web.</p></details>
           <details><summary><b>✦</b><span>A Community Classroom</span></summary><p>Students and neighbors can observe wildlife, study changes, and learn how informed choices support stewardship.</p></details>
         </div>
-        <a class="next-mission" href="#mission-runoff">Next mission: Track road salt ↓</a>
+        <div class="student-check"><strong>Stop and think</strong><p>Pick one wetland job. What might happen to plants, animals, or nearby communities if that job disappeared?</p></div>
+        <button class="next-mission" type="button" data-mission="mission-runoff">Next mission: Track road salt ↓</button>
       </div>
     </section>
 
     <section class="lesson runoff-lesson" id="mission-runoff" aria-labelledby="runoff-title">
-      <div class="wrap lesson-split"><div><div class="lesson-head"><span>MISSION 02 · WATCH</span><h2 id="runoff-title">Follow the salt.</h2><p>Rain and melting snow can dissolve road salt and carry it away from pavement.</p></div><div class="runoff-path" role="img" aria-label="Road to storm drain to stream to wetland"><span>Road</span><i>→</i><span>Storm drain</span><i>→</i><span>Stream</span><i>→</i><span>Wetland</span></div><p class="clue-note"><strong>Detective clue:</strong> Dissolved salt may be invisible even when it raises conductivity and TDS.</p></div><div class="lesson-video"><video controls preload="metadata" playsinline aria-label="Animated explanation of road-salt runoff"><source src="assets/road-salt-runoff-animation.mp4" type="video/mp4">Your browser does not support the video.</video></div></div>
+      <div class="wrap lesson-split"><div><div class="lesson-head"><span>MISSION 02 · WATCH</span><h2 id="runoff-title">Follow the salt.</h2><p>Road salt may be spread as crystals or salty liquid. Rain and melting snow dissolve it, and flowing water can carry the chloride through gutters, storm drains, streams, soil, and eventually wetlands.</p></div><div class="mini-goal"><small>WATCH FOR</small><p>Where does the salt begin? What moves it? Where can it end up?</p></div><div class="runoff-path" role="img" aria-label="Road to storm drain to stream to wetland"><span>Road</span><i>→</i><span>Storm drain</span><i>→</i><span>Stream</span><i>→</i><span>Wetland</span></div><p class="clue-note"><strong>Detective clue:</strong> Dissolved salt may be invisible even when it raises conductivity and TDS. A storm drain usually carries runoff to local waterways—it is not the same as a wastewater treatment pipe.</p></div><div class="lesson-video"><video controls preload="metadata" playsinline aria-label="Animated explanation of road-salt runoff"><source src="assets/road-salt-runoff-animation.mp4" type="video/mp4">Your browser does not support the video.</video><div class="video-task"><strong>After watching</strong><p>Retell the journey using these words: <em>dissolve, runoff, storm drain, stream, wetland.</em></p></div></div></div>
     </section>
 
     <section class="lesson sensor-lesson" id="mission-sensors" aria-labelledby="sensor-title">
-      <div class="wrap"><div class="lesson-head centered"><span>MISSION 03 · INVESTIGATE</span><h2 id="sensor-title">Decode four water clues.</h2><p>Each sensor tells one part of the story. Scientists compare repeated measurements instead of relying on one number.</p></div><div class="sensor-grid">
-        <article><span>pH</span><h3>Acidity or basicity</h3><p>Large pH changes can make conditions difficult for aquatic organisms.</p><small>ASK: Did the reading change?</small></article>
-        <article><span>TDS</span><h3>Conductivity / TDS</h3><p>Dissolved ions help water carry electricity. A change can be a clue that new material entered the water.</p><small>ASK: Was there recent runoff?</small></article>
-        <article><span>DO</span><h3>Dissolved oxygen</h3><p>Fish, insects, and other aquatic organisms use oxygen dissolved in water.</p><small>ASK: Did temperature change?</small></article>
-        <article><span>°C</span><h3>Water temperature</h3><p>Temperature affects aquatic life and how much dissolved oxygen water can hold.</p><small>ASK: What are the season and weather?</small></article>
+      <div class="wrap"><div class="lesson-head centered"><span>MISSION 03 · INVESTIGATE</span><h2 id="sensor-title">Decode four water clues.</h2><p>A sensor reading is a clue, not a final conclusion. Students should ask what changed, check the measurement again, and compare it with the location, weather, season, and other readings.</p></div><div class="student-brief"><div><small>LEARNING GOAL</small><strong>I can describe what each sensor measures.</strong></div><div><small>SCIENCE HABIT</small><strong>Retest surprising results before drawing a conclusion.</strong></div><div><small>REMEMBER</small><strong>Several clues together tell a stronger story.</strong></div></div><div class="sensor-grid">
+        <article><span>pH</span><h3>Acidity or basicity</h3><p>The pH scale describes whether water is acidic, near neutral, or basic. A sudden change may stress organisms that are adapted to a smaller range.</p><small>ASK: Is the change repeatable?</small></article>
+        <article><span>TDS</span><h3>Conductivity / TDS</h3><p>Dissolved ions help water conduct electricity. Road salt can add ions, so conductivity may rise even when the salt cannot be seen.</p><small>ASK: Was there rain, melting snow, or runoff?</small></article>
+        <article><span>DO</span><h3>Dissolved oxygen</h3><p>This is oxygen mixed into water—not the oxygen inside H₂O. Fish, insect larvae, and other aquatic organisms depend on it.</p><small>ASK: Did temperature or water movement change?</small></article>
+        <article><span>°C</span><h3>Water temperature</h3><p>Temperature affects animal activity and the amount of oxygen water can hold. Sunlight, shade, season, and runoff can all influence it.</p><small>ASK: What were the weather and time of day?</small></article>
       </div><p class="sensor-status"><strong>Team Tacocat’s sensors are not deployed yet.</strong> These explanations show what the future measurements will help students investigate.</p></div>
     </section>
 
     <section class="lesson challenge-lesson" id="mission-detective" aria-labelledby="detective-title">
-      <div class="wrap challenge-layout"><div class="challenge-intro"><span>MISSION 04 · PLAY</span><div class="challenge-icon" aria-hidden="true">⌕</div><h2 id="detective-title">Water Detective</h2><p>Six environmental cases. Follow the evidence and choose the best next step.</p><div class="score-orbit"><strong id="class-detective-number">1</strong><small id="class-detective-total">of 6</small></div></div><div class="challenge-card" id="class-detective-game"></div></div>
+      <div class="wrap challenge-layout"><div class="challenge-intro"><span>MISSION 04 · PLAY</span><div class="challenge-icon" aria-hidden="true">⌕</div><h2 id="detective-title">Water Detective</h2><p>Read each case carefully. Choose the action supported by evidence, then read the explanation before moving on. Mistakes are part of investigating—you can retry every case.</p><ul class="mission-rules"><li>Observe before explaining.</li><li>Retest unusual measurements.</li><li>Use more than one clue.</li></ul><div class="score-orbit"><strong id="class-detective-number">1</strong><small id="class-detective-total">of 6</small></div></div><div class="challenge-card" id="class-detective-game"></div></div>
     </section>
 
     <section class="lesson quiz-lesson" id="mission-quiz" aria-labelledby="quiz-title">
-      <div class="wrap quiz-layout"><div class="quiz-intro"><span>MISSION 05 · CHALLENGE</span><h2 id="quiz-title">Wetland Knowledge Quiz</h2><p>Use what you learned from the first four missions.</p><div class="quiz-progress"><div><span id="class-quiz-label">Question 1 of 6</span><b id="class-quiz-score">Score 0</b></div><div><i id="class-quiz-bar"></i></div></div></div><div class="challenge-card" id="class-knowledge-game"></div></div>
+      <div class="wrap quiz-layout"><div class="quiz-intro"><span>MISSION 05 · CHALLENGE</span><h2 id="quiz-title">Wetland Knowledge Quiz</h2><p>Use what you learned about wetland jobs, runoff, and water-quality clues. After each answer, pause to read why it is correct—the explanation is part of the lesson.</p><div class="quiz-tip"><strong>Student tip</strong><span>If you are unsure, eliminate answers that do not use scientific evidence.</span></div><div class="quiz-progress"><div><span id="class-quiz-label">Question 1 of 6</span><b id="class-quiz-score">Score 0</b></div><div><i id="class-quiz-bar"></i></div></div></div><div class="challenge-card" id="class-knowledge-game"></div></div>
     </section>
 
     <section class="lesson badge-lesson" id="mission-badges" aria-labelledby="badges-title">
@@ -114,6 +116,6 @@
   <dialog class="class-certificate" id="class-certificate" aria-labelledby="class-certificate-title"><div class="certificate-tools"><label>Name<input id="class-certificate-name" type="text" maxlength="60" autocomplete="name" placeholder="Enter your name"></label><button id="class-print-certificate" type="button" disabled>Print or save PDF</button><button class="class-certificate-close" type="button" aria-label="Close certificate">×</button></div><article><img src="assets/tacocat-right.png" alt=""><span>TEAM TACOCAT · FLL TEAM #34043</span><p>CERTIFICATE OF COMPLETION</p><h2 id="class-certificate-title">Great Swamp Water Detective</h2><small>This certificate is proudly presented to</small><strong id="class-certificate-recipient">Your Name</strong><p>for completing all six Water Detective cases and demonstrating careful observation and an understanding of water-quality clues.</p><div><span id="class-certificate-date"></span><b>6/6 CASES COMPLETE</b></div></article></dialog>
 
   <footer><div class="wrap"><span>Team Tacocat · FLL Team #34043</span><a href="#missions">Choose another mission ↑</a></div></footer>
-  <script src="classroom.js?v=1"></script>
+  <script src="classroom.js?v=2"></script>
 </body>
 </html>

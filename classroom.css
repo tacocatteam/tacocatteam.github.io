@@ -110,6 +110,56 @@ body.modal-open {
   color: var(--ink);
   text-decoration: none;
   font-weight: 800;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+.student-brief {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: -12px 0 30px;
+}
+.student-brief > div,
+.mini-goal,
+.video-task,
+.quiz-tip {
+  padding: 17px 19px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+}
+.student-brief small,
+.mini-goal small {
+  display: block;
+  margin-bottom: 6px;
+  color: #0e8fd4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.student-brief strong {
+  display: block;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.student-check {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border-left: 5px solid var(--yellow);
+  border-radius: 0 16px 16px 0;
+  background: #eaf7fd;
+}
+.student-check strong,
+.video-task strong,
+.quiz-tip strong {
+  color: var(--blue);
+}
+.student-check p,
+.mini-goal p,
+.video-task p {
+  margin: 4px 0 0;
+  color: var(--muted);
 }
 .runoff-lesson {
   background: linear-gradient(135deg, #eaf8ff, #fff8df);
@@ -161,6 +211,9 @@ body.modal-open {
   border-radius: 17px;
   background: #043251;
   object-fit: contain;
+}
+.video-task {
+  margin-top: 10px;
 }
 .sensor-lesson {
   background: #effaff;
@@ -245,6 +298,15 @@ body.modal-open {
 }
 .challenge-intro p {
   color: #d7f3ff;
+}
+.mission-rules {
+  margin: 24px 0 115px;
+  padding-left: 20px;
+  color: #d7f3ff;
+  font-size: 0.84rem;
+}
+.mission-rules li + li {
+  margin-top: 7px;
 }
 .challenge-icon {
   font-size: 3rem;
@@ -372,6 +434,13 @@ body.modal-open {
 }
 .quiz-progress {
   margin-top: 45px;
+}
+.quiz-tip {
+  display: grid;
+  gap: 4px;
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: 0.8rem;
 }
 .quiz-progress > div:first-child {
   display: flex;
@@ -577,6 +646,9 @@ body.modal-open {
   .sensor-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .student-brief {
+    grid-template-columns: 1fr;
+  }
   .lesson-split,
   .challenge-layout,
   .quiz-layout {
@@ -617,6 +689,9 @@ body.modal-open {
   }
   .challenge-intro {
     min-height: 300px;
+  }
+  .mission-rules {
+    margin-bottom: 100px;
   }
   .score-orbit {
     left: 28px;
@@ -899,6 +974,11 @@ h3 {
   text-decoration: none;
   box-shadow: 0 12px 28px rgba(7, 93, 168, 0.08);
   transition: 0.25s;
+  width: 100%;
+  font-family: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 .mission:hover {
   transform: translateY(-7px) rotate(-0.5deg);
@@ -931,6 +1011,11 @@ h3 {
   margin: 0 0 20px;
   color: var(--muted);
   font-size: 0.88rem;
+}
+.mission:focus-visible,
+.next-mission:focus-visible {
+  outline: 4px solid #ffca35;
+  outline-offset: 4px;
 }
 .mission strong {
   position: absolute;
