@@ -57,69 +57,7 @@ const detectiveQuestions = [
   },
 ];
 
-const knowledgeQuestions = [
-  {
-    q: "Which is an important job of a wetland?",
-    a: [
-      "Building roads",
-      "Filtering water",
-      "Making plastic",
-      "Blocking rainfall",
-    ],
-    correct: 1,
-    e: "Wetland plants and soils can help filter water and capture sediment.",
-  },
-  {
-    q: "What does dissolved oxygen describe?",
-    a: [
-      "Salt on the shore",
-      "Clouds above water",
-      "Oxygen available in water",
-      "The depth of a pond",
-    ],
-    correct: 2,
-    e: "Dissolved oxygen is oxygen in the water that fish, insects, and other aquatic organisms can use.",
-  },
-  {
-    q: "What does pH help us understand?",
-    a: [
-      "Water color",
-      "Water speed",
-      "Water depth",
-      "How acidic or basic water is",
-    ],
-    correct: 3,
-    e: "pH indicates whether water is more acidic, neutral, or basic.",
-  },
-  {
-    q: "Conductivity is influenced by what in the water?",
-    a: ["Dissolved ions", "Bird calls", "Sunset colors", "Leaf shapes"],
-    correct: 0,
-    e: "Dissolved ions help water carry an electrical current, which is what a conductivity sensor measures.",
-  },
-  {
-    q: "Why does biodiversity matter?",
-    a: [
-      "It makes every species identical",
-      "Food webs depend on many species",
-      "Only one species is needed",
-      "It prevents all change",
-    ],
-    correct: 1,
-    e: "Biodiversity connects many species through food webs and helps ecosystems function.",
-  },
-  {
-    q: "Which action helps nearby waterways?",
-    a: [
-      "Pouring chemicals outside",
-      "Damaging stream banks",
-      "Reducing litter and runoff",
-      "Feeding wild animals",
-    ],
-    correct: 2,
-    e: "Reducing litter, fertilizers, and other runoff helps keep unwanted materials away from waterways.",
-  },
-];
+const knowledgeQuestions = window.TacoCatQuestionBank || [];
 
 // Mission controls scroll inside Classroom Mode instead of navigating away.
 document.querySelectorAll("[data-mission]").forEach((control) => {
@@ -136,6 +74,26 @@ document.querySelectorAll(".lesson h2").forEach((heading) => {
   heading.tabIndex = -1;
 });
 
+const presentationLinks = [...document.querySelectorAll(".presentation-nav a")];
+const presentationSections = presentationLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+const presentationObserver = new IntersectionObserver(
+  (entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    presentationLinks.forEach((link) => {
+      const active = link.getAttribute("href") === `#${visible.target.id}`;
+      if (active) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  },
+  { threshold: [0.25, 0.5, 0.75] },
+);
+presentationSections.forEach((section) => presentationObserver.observe(section));
+
 function shuffle(items) {
   const copy = [...items];
   for (let index = copy.length - 1; index > 0; index--) {
@@ -144,8 +102,8 @@ function shuffle(items) {
   }
   return copy;
 }
-function prepareQuestions(items) {
-  return shuffle(items).map((item) => {
+function prepareQuestions(items, limit = items.length) {
+  return shuffle(items).slice(0, limit).map((item) => {
     const choices = shuffle(
       item.a.map((text, index) => ({
         text,
@@ -214,7 +172,8 @@ function updateAchievements() {
 
 function createChallenge(rootId, source, type) {
   const root = document.getElementById(rootId);
-  let questions = prepareQuestions(source),
+  const questionCount = type === "knowledge" ? 10 : source.length;
+  let questions = prepareQuestions(source, questionCount),
     index = 0,
     score = 0,
     answered = false,
@@ -246,7 +205,7 @@ function createChallenge(rootId, source, type) {
       }
       root.innerHTML = `<div class="result"><div class="result-score">${score}/${questions.length}</div><h3>${type === "detective" ? "Case files complete!" : "Quiz complete!"}</h3><p>${score === questions.length ? "Excellent work—you followed every clue." : "Good investigation. Review the clues and try again to improve your score."}</p><a class="game-button show" href="#mission-badges">View my badges ↓</a><button class="game-button restart" type="button">Try again ↻</button></div>`;
       root.querySelector(".restart").addEventListener("click", () => {
-        questions = prepareQuestions(source);
+        questions = prepareQuestions(source, questionCount);
         index = 0;
         score = 0;
         answered = false;

@@ -10,17 +10,10 @@ const detectiveQuestions=[
  {q:'A pH result is very different from yesterday. What is the best first step?',a:['Announce a conclusion','Retest the water','Delete yesterday’s result','Move the stream'],correct:1,e:'Retesting helps determine whether the change is repeatable before anyone tries to explain its cause.'},
  {q:'Why collect measurements over many days?',a:['To make longer charts','Because one day tells everything','To notice patterns and changes','So the sensor gets exercise'],correct:2,e:'Repeated measurements can reveal changes connected with rain, seasons, runoff, or other environmental conditions.'}
 ];
-const knowledgeQuestions=[
- {q:'Which is an important job of a wetland?',a:['Building roads','Filtering water','Making plastic','Blocking rainfall'],correct:1,e:'Wetland plants and soils can help filter water and capture sediment.'},
- {q:'What does dissolved oxygen describe?',a:['Salt on the shore','Clouds above water','Oxygen available in water','The depth of a pond'],correct:2,e:'Dissolved oxygen is oxygen in the water that fish, insects, and other aquatic organisms can use.'},
- {q:'What does pH help us understand?',a:['Water color','Water speed','Water depth','How acidic or basic water is'],correct:3,e:'pH indicates whether water is more acidic, neutral, or basic.'},
- {q:'Conductivity is influenced by what in the water?',a:['Dissolved ions','Bird calls','Sunset colors','Leaf shapes'],correct:0,e:'Dissolved ions help water carry an electrical current, which is what a conductivity sensor measures.'},
- {q:'Why does biodiversity matter?',a:['It makes every species identical','Food webs depend on many species','Only one species is needed','It prevents all change'],correct:1,e:'Biodiversity connects many species through food webs and helps ecosystems function.'},
- {q:'Which action helps nearby waterways?',a:['Pouring chemicals outside','Damaging stream banks','Reducing litter and runoff','Feeding wild animals'],correct:2,e:'Reducing litter, fertilizers, and other runoff helps keep unwanted materials away from waterways.'}
-];
+const knowledgeQuestions=window.TacoCatQuestionBank||[];
 
 function shuffle(items){const copy=[...items];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
-function prepareQuestions(items){return shuffle(items).map(item=>{const choices=shuffle(item.a.map((text,index)=>({text,isCorrect:index===item.correct})));return{...item,a:choices.map(choice=>choice.text),correct:choices.findIndex(choice=>choice.isCorrect)}})}
+function prepareQuestions(items,limit=items.length){return shuffle(items).slice(0,limit).map(item=>{const choices=shuffle(item.a.map((text,index)=>({text,isCorrect:index===item.correct})));return{...item,a:choices.map(choice=>choice.text),correct:choices.findIndex(choice=>choice.isCorrect)}})}
 
 const achievementKey='tacocat-achievements-v1';
 function loadAchievements(){try{return JSON.parse(localStorage.getItem(achievementKey))||{}}catch{return{}}}
@@ -45,13 +38,14 @@ function updateAchievements(){
 }
 
 function createQuiz(rootId,sourceQuestions,type){
-  let questions=prepareQuestions(sourceQuestions),index=0,score=0,answered=false,completionRecorded=false;
+  const questionCount=type==='knowledge'?10:sourceQuestions.length;
+  let questions=prepareQuestions(sourceQuestions,questionCount),index=0,score=0,answered=false,completionRecorded=false;
   const root=document.getElementById(rootId);
   function render(){
     if(index>=questions.length){
       if(!completionRecorded){saveAchievement(type,score,questions.length);completionRecorded=true}
       root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3>${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p>${type==='detective'?'<a class="button primary" href="#achievements">View certificate ↓</a>':''}<button class="button primary restart">Try again ↻</button></div>`;
-      root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions);index=0;score=0;answered=false;completionRecorded=false;update();render()};
+      root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions,questionCount);index=0;score=0;answered=false;completionRecorded=false;update();render()};
       update();return;
     }
     const item=questions[index];

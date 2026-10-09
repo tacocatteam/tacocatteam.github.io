@@ -17,6 +17,75 @@ html {
 body.modal-open {
   overflow: hidden;
 }
+.presentation-nav {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid #b9ddec;
+  background: rgba(248, 253, 255, 0.94);
+  box-shadow: 0 8px 25px rgba(7, 59, 100, 0.08);
+  backdrop-filter: blur(14px);
+  scrollbar-width: none;
+}
+.presentation-nav::-webkit-scrollbar {
+  display: none;
+}
+.presentation-nav a {
+  flex: 0 0 auto;
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.presentation-nav a:hover,
+.presentation-nav a[aria-current="true"] {
+  background: var(--blue);
+  color: #fff;
+}
+.presentation-panel {
+  position: relative;
+  min-height: max(720px, calc(100svh - 52px));
+  border-top: 1px solid rgba(7, 93, 168, 0.1);
+}
+.presentation-panel::before {
+  content: attr(data-slide);
+  position: absolute;
+  top: 34px;
+  right: max(18px, calc((100% - 1160px) / 2));
+  z-index: 2;
+  padding: 6px 10px;
+  border: 1px solid rgba(7, 93, 168, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #0e8fd4;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.missions.presentation-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.lesson.presentation-panel,
+.thinking-section.presentation-panel {
+  display: flex;
+  align-items: center;
+}
+.lesson.presentation-panel > .wrap,
+.thinking-section.presentation-panel > .wrap {
+  width: min(1160px, calc(100% - 36px));
+}
+.class-path.presentation-panel {
+  align-content: center;
+}
 .lesson {
   padding: 90px 0;
   scroll-margin-top: 18px;
@@ -666,6 +735,16 @@ body.modal-open {
   }
 }
 @media (max-width: 560px) {
+  .presentation-nav {
+    justify-content: flex-start;
+  }
+  .presentation-panel {
+    min-height: auto;
+  }
+  .presentation-panel::before {
+    top: 18px;
+    right: 14px;
+  }
   .lesson {
     padding: 65px 0;
   }
