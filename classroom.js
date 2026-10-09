@@ -94,10 +94,21 @@ const presentationObserver = new IntersectionObserver(
 );
 presentationSections.forEach((section) => presentationObserver.observe(section));
 
+function randomIndex(maxExclusive) {
+  if (globalThis.crypto?.getRandomValues) {
+    const values = new Uint32Array(1);
+    const range = 0x100000000;
+    const unbiasedLimit = range - (range % maxExclusive);
+    do globalThis.crypto.getRandomValues(values);
+    while (values[0] >= unbiasedLimit);
+    return values[0] % maxExclusive;
+  }
+  return Math.floor(Math.random() * maxExclusive);
+}
 function shuffle(items) {
   const copy = [...items];
   for (let index = copy.length - 1; index > 0; index--) {
-    const swap = Math.floor(Math.random() * (index + 1));
+    const swap = randomIndex(index + 1);
     [copy[index], copy[swap]] = [copy[swap], copy[index]];
   }
   return copy;

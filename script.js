@@ -12,7 +12,8 @@ const detectiveQuestions=[
 ];
 const knowledgeQuestions=window.TacoCatQuestionBank||[];
 
-function shuffle(items){const copy=[...items];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
+function randomIndex(maxExclusive){if(globalThis.crypto?.getRandomValues){const values=new Uint32Array(1),range=0x100000000,unbiasedLimit=range-(range%maxExclusive);do globalThis.crypto.getRandomValues(values);while(values[0]>=unbiasedLimit);return values[0]%maxExclusive}return Math.floor(Math.random()*maxExclusive)}
+function shuffle(items){const copy=[...items];for(let i=copy.length-1;i>0;i--){const j=randomIndex(i+1);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function prepareQuestions(items,limit=items.length){return shuffle(items).slice(0,limit).map(item=>{const choices=shuffle(item.a.map((text,index)=>({text,isCorrect:index===item.correct})));return{...item,a:choices.map(choice=>choice.text),correct:choices.findIndex(choice=>choice.isCorrect)}})}
 
 const achievementKey='tacocat-achievements-v1';
