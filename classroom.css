@@ -1003,11 +1003,13 @@ h3 {
     800 1.75rem Manrope,
     sans-serif;
 }
-.mission h3 {
+.mission-title {
+  display: block;
   margin: 0 0 9px;
-  font-size: 1.3rem;
+  font: 750 1.3rem Manrope, sans-serif;
 }
-.mission p {
+.mission-description {
+  display: block;
   margin: 0 0 20px;
   color: var(--muted);
   font-size: 0.88rem;
