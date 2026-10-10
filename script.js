@@ -42,20 +42,24 @@ function createQuiz(rootId,sourceQuestions,type){
   const questionCount=type==='knowledge'?10:sourceQuestions.length;
   let questions=prepareQuestions(sourceQuestions,questionCount),index=0,score=0,answered=false,completionRecorded=false;
   const root=document.getElementById(rootId);
+  function focusCurrent(){requestAnimationFrame(()=>root.querySelector('.question,.result h3')?.focus())}
   function render(){
+    if(!root)return;
+    if(!questions.length){root.innerHTML='<div class="result"><h3 tabindex="-1">Questions are unavailable</h3><p>Please refresh the page and try again.</p></div>';focusCurrent();return}
     if(index>=questions.length){
       if(!completionRecorded){saveAchievement(type,score,questions.length);completionRecorded=true}
-      root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3>${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p>${type==='detective'?'<a class="button primary" href="#achievements">View certificate ↓</a>':''}<button class="button primary restart">Try again ↻</button></div>`;
-      root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions,questionCount);index=0;score=0;answered=false;completionRecorded=false;update();render()};
+      root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p>${type==='detective'?'<a class="button primary" href="#achievements">View certificate ↓</a>':''}<button class="button primary restart">Try again ↻</button></div>`;
+      root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions,questionCount);index=0;score=0;answered=false;completionRecorded=false;update();render();focusCurrent()};
+      focusCurrent();
       update();return;
     }
     const item=questions[index];
-    root.innerHTML=`<span class="question-tag">${type==='detective'?'CASE FILE':'WETLAND QUIZ'} · ${String(index+1).padStart(2,'0')}</span><div class="question">${item.q}</div><div class="answers">${item.a.map((a,i)=>`<button class="answer" data-i="${i}"><b>${String.fromCharCode(65+i)}.</b> ${a}</button>`).join('')}</div><div class="feedback" role="status"></div><button class="button primary next-button">${index===questions.length-1?'See my score':'Next question'} →</button>`;
+    root.innerHTML=`<span class="question-tag">${type==='detective'?'CASE FILE':'WETLAND QUIZ'} · ${String(index+1).padStart(2,'0')}</span><div class="question" tabindex="-1">${item.q}</div><div class="answers">${item.a.map((a,i)=>`<button class="answer" data-i="${i}"><b>${String.fromCharCode(65+i)}.</b> ${a}</button>`).join('')}</div><div class="feedback" role="status" tabindex="-1"></div><button class="button primary next-button">${index===questions.length-1?'See my score':'Next question'} →</button>`;
     root.querySelectorAll('.answer').forEach(btn=>btn.onclick=()=>choose(btn,item));
-    root.querySelector('.next-button').onclick=()=>{index++;answered=false;update();render()};
+    root.querySelector('.next-button').onclick=()=>{index++;answered=false;update();render();focusCurrent()};
     update();
   }
-  function choose(btn,item){if(answered)return;answered=true;const chosen=+btn.dataset.i;if(chosen===item.correct){score++;btn.classList.add('correct')}else{btn.classList.add('wrong');root.querySelector(`[data-i="${item.correct}"]`).classList.add('correct')}root.querySelectorAll('.answer').forEach(b=>b.disabled=true);const feedback=root.querySelector('.feedback');feedback.innerHTML=`<strong>${chosen===item.correct?'Correct!':'Good try.'}</strong> ${item.e}`;feedback.classList.add('show');root.querySelector('.next-button').classList.add('show');update()}
+  function choose(btn,item){if(answered)return;answered=true;const chosen=+btn.dataset.i;if(chosen===item.correct){score++;btn.classList.add('correct')}else{btn.classList.add('wrong');root.querySelector(`[data-i="${item.correct}"]`).classList.add('correct')}root.querySelectorAll('.answer').forEach(b=>b.disabled=true);const feedback=root.querySelector('.feedback');feedback.innerHTML=`<strong>${chosen===item.correct?'Correct!':'Good try.'}</strong> ${item.e}`;feedback.classList.add('show');root.querySelector('.next-button').classList.add('show');feedback.focus();update()}
   function update(){if(type==='detective'){document.getElementById('detective-number').textContent=Math.min(index+1,questions.length);document.getElementById('detective-total').textContent=`of ${questions.length}`}else{document.getElementById('quiz-label').textContent=index>=questions.length?'Quiz complete':`Question ${index+1} of ${questions.length}`;document.getElementById('quiz-score-label').textContent=`Score ${score}`;document.getElementById('quiz-bar').style.width=`${Math.min((index+1)/questions.length*100,100)}%`}}
   render();
 }

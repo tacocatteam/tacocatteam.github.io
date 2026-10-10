@@ -7,7 +7,8 @@ const TEAM_QUESTION = /\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s
 const PI_DESCRIPTION = 'TacoChat is the website assistant, not a Raspberry Pi. Team Tacocat\u2019s Great Swamp Water Watch system is designed to use a Raspberry Pi 3B+ to collect and organize information from its water-quality sensors. Meow!';
 const PI_QUESTION = /\braspberry\s*pi\b|\b(?:which|what)\s+pi\b|\bpi\s+model\b/i;
 const IDENTITY_DESCRIPTION = 'I am TacoChat, the official chatbot for the Tacocat Team, how can I help';
-const IDENTITY_QUESTION = /^\s*(?:who|what)\s+(?:are|r)\s+(?:you|u)[!?.,]*\s*$/i;
+const GREETING = /^\s*(?:hello|hi|hey)(?:\s+(?:there|tacochat))?[!?.,]*\s*$/i;
+const IDENTITY_QUESTION = /\b(?:(?:who|what)\s+(?:are|r)\s+(?:you|u)|who\s+(?:you|u)\s+(?:are|r))\b/i;
 const SHORT_ANSWERS = {
   do: 'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
   ph: 'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
@@ -78,7 +79,7 @@ export default {
         ? new Response(null, { status: 403 })
         : new Response(null, { status: 204, headers: headers(origin) });
     }
-    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Llama 3.2 1B', release: 'llama-1b-v4' }, 200, origin);
+    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Llama 3.2 1B', release: 'llama-1b-v5' }, 200, origin);
     if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405, origin);
     if (origin && origin !== SITE_ORIGIN) return json({ error: 'Origin not allowed.' }, 403, origin);
     if (url.pathname === '/speech') return speechResponse(request, env, origin);
@@ -90,7 +91,7 @@ export default {
     const message = String(body.message || '').trim();
     if (!message) return json({ error: 'Please enter a message.' }, 400, origin);
     if (message.length > 300) return json({ error: 'Please keep your message under 300 characters.' }, 400, origin);
-    if (/^hello[!.?]*$/i.test(message)) {
+    if (GREETING.test(message)) {
       return json({ reply: 'Hello, how can I help you today', hardcoded: true }, 200, origin);
     }
     if (IDENTITY_QUESTION.test(message)) {
