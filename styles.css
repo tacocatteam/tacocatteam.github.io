@@ -140,3 +140,7 @@ footer{background:#061b2b}
 .footer-project-copy{display:grid;gap:8px;margin:0;line-height:1.55}
 .footer-project-copy span{display:block}
 @media(max-width:560px){.footer-brand{margin-bottom:26px}.footer-project-copy{gap:10px;line-height:1.6}}
+
+/* Team Tacocat brand artwork */
+.brand-mascot{overflow:hidden;background:#087bd1;border-color:rgba(255,255,255,.78)}
+.brand-mascot img{display:block;width:92%;height:92%;object-fit:contain}
