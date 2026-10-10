@@ -19,7 +19,7 @@ function prepareQuestions(items,limit=items.length){return shuffle(items).slice(
 const achievementKey='tacocat-achievements-v1';
 function loadAchievements(){try{return JSON.parse(localStorage.getItem(achievementKey))||{}}catch{return{}}}
 const achievements=loadAchievements();
-function saveAchievement(type,score,total){achievements[type]={completed:true,perfect:score===total,score,total,date:new Date().toISOString()};try{localStorage.setItem(achievementKey,JSON.stringify(achievements))}catch{}updateAchievements()}
+function saveAchievement(type,score,total){const previous=achievements[type],bestScore=Math.max(previous?.score||0,score);achievements[type]={completed:true,perfect:Boolean(previous?.perfect||score===total),score:bestScore,total,date:new Date().toISOString()};try{localStorage.setItem(achievementKey,JSON.stringify(achievements))}catch{}updateAchievements()}
 function updateAchievements(){
   document.querySelectorAll('[data-achievement]').forEach(card=>{
     const achievement=achievements[card.dataset.achievement];

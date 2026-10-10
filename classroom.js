@@ -58,13 +58,19 @@ const detectiveQuestions = [
 ];
 
 const knowledgeQuestions = window.TacoCatQuestionBank || [];
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 
 // Mission controls scroll inside Classroom Mode instead of navigating away.
 document.querySelectorAll("[data-mission]").forEach((control) => {
   control.addEventListener("click", () => {
     const destination = document.getElementById(control.dataset.mission);
     if (!destination) return;
-    destination.scrollIntoView({ behavior: "smooth", block: "start" });
+    destination.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
     history.replaceState(null, "", `#${destination.id}`);
     destination.querySelector("h2")?.focus({ preventScroll: true });
   });
@@ -75,6 +81,7 @@ document.querySelectorAll(".lesson h2").forEach((heading) => {
 });
 
 const presentationLinks = [...document.querySelectorAll(".presentation-nav a")];
+const presentationNav = document.querySelector(".presentation-nav");
 const presentationSections = presentationLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
@@ -84,11 +91,24 @@ const presentationObserver = new IntersectionObserver(
       .filter((entry) => entry.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
     if (!visible) return;
+    let activeLink;
     presentationLinks.forEach((link) => {
       const active = link.getAttribute("href") === `#${visible.target.id}`;
-      if (active) link.setAttribute("aria-current", "true");
+      if (active) {
+        link.setAttribute("aria-current", "location");
+        activeLink = link;
+      }
       else link.removeAttribute("aria-current");
     });
+    if (activeLink && presentationNav.scrollWidth > presentationNav.clientWidth) {
+      const targetLeft =
+        activeLink.offsetLeft -
+        (presentationNav.clientWidth - activeLink.offsetWidth) / 2;
+      presentationNav.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    }
   },
   { threshold: [0.25, 0.5, 0.75] },
 );
@@ -139,10 +159,12 @@ function loadAchievements() {
 }
 const achievements = loadAchievements();
 function saveAchievement(type, score, total) {
+  const previous = achievements[type];
+  const bestScore = Math.max(previous?.score || 0, score);
   achievements[type] = {
     completed: true,
-    perfect: score === total,
-    score,
+    perfect: Boolean(previous?.perfect || score === total),
+    score: bestScore,
     total,
     date: new Date().toISOString(),
   };
@@ -183,6 +205,14 @@ function updateAchievements() {
 
 function createChallenge(rootId, source, type) {
   const root = document.getElementById(rootId);
+  if (!root) return;
+  if (!Array.isArray(source) || source.length === 0) {
+    root.innerHTML = `<div class="result"><h3>Questions could not load.</h3><p>Please refresh the page and try again.</p><button class="game-button restart show" type="button">Refresh questions ↻</button></div>`;
+    root.querySelector(".restart").addEventListener("click", () =>
+      window.location.reload(),
+    );
+    return;
+  }
   const questionCount = type === "knowledge" ? 10 : source.length;
   let questions = prepareQuestions(source, questionCount),
     index = 0,
@@ -204,8 +234,12 @@ function createChallenge(rootId, source, type) {
           : `Question ${index + 1} of ${questions.length}`;
       document.getElementById("class-quiz-score").textContent =
         `Score ${score}`;
-      document.getElementById("class-quiz-bar").style.width =
-        `${Math.min(((index + 1) / questions.length) * 100, 100)}%`;
+      const progress = document.getElementById("class-quiz-progress");
+      if (progress) {
+        progress.max = questions.length;
+        progress.value = Math.min(index + 1, questions.length);
+        progress.textContent = `${progress.value} of ${questions.length}`;
+      }
     }
   }
   function render() {
@@ -214,7 +248,7 @@ function createChallenge(rootId, source, type) {
         saveAchievement(type, score, questions.length);
         recorded = true;
       }
-      root.innerHTML = `<div class="result"><div class="result-score">${score}/${questions.length}</div><h3>${type === "detective" ? "Case files complete!" : "Quiz complete!"}</h3><p>${score === questions.length ? "Excellent work—you followed every clue." : "Good investigation. Review the clues and try again to improve your score."}</p><a class="game-button show" href="#mission-badges">View my badges ↓</a><button class="game-button restart" type="button">Try again ↻</button></div>`;
+      root.innerHTML = `<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type === "detective" ? "Case files complete!" : "Quiz complete!"}</h3><p>${score === questions.length ? "Excellent work—you followed every clue." : "Good investigation. Review the clues and try again to improve your score."}</p><a class="game-button show" href="#mission-badges">View my badges ↓</a><button class="game-button restart" type="button">Try again ↻</button></div>`;
       root.querySelector(".restart").addEventListener("click", () => {
         questions = prepareQuestions(source, questionCount);
         index = 0;
@@ -223,12 +257,13 @@ function createChallenge(rootId, source, type) {
         recorded = false;
         updateProgress();
         render();
+        root.querySelector(".question")?.focus({ preventScroll: true });
       });
       updateProgress();
       return;
     }
     const item = questions[index];
-    root.innerHTML = `<span class="question-tag">${type === "detective" ? "CASE FILE" : "WETLAND QUIZ"} · ${String(index + 1).padStart(2, "0")}</span><div class="question">${item.q}</div><div class="answers">${item.a.map((answer, choice) => `<button class="answer" type="button" data-choice="${choice}"><b>${String.fromCharCode(65 + choice)}.</b> ${answer}</button>`).join("")}</div><div class="feedback" role="status"></div><button class="game-button next" type="button">${index === questions.length - 1 ? "See my score" : "Next question"} →</button>`;
+    root.innerHTML = `<span class="question-tag">${type === "detective" ? "CASE FILE" : "WETLAND QUIZ"} · ${String(index + 1).padStart(2, "0")}</span><div class="question" tabindex="-1">${item.q}</div><div class="answers">${item.a.map((answer, choice) => `<button class="answer" type="button" data-choice="${choice}"><b>${String.fromCharCode(65 + choice)}.</b> ${answer}</button>`).join("")}</div><div class="feedback" role="status"></div><button class="game-button next" type="button">${index === questions.length - 1 ? "See my score" : "Next question"} →</button>`;
     root
       .querySelectorAll(".answer")
       .forEach((button) =>
@@ -239,6 +274,9 @@ function createChallenge(rootId, source, type) {
       answered = false;
       updateProgress();
       render();
+      root
+        .querySelector(index >= questions.length ? ".result h3" : ".question")
+        ?.focus({ preventScroll: true });
     });
     updateProgress();
   }
@@ -261,7 +299,9 @@ function createChallenge(rootId, source, type) {
     const feedback = root.querySelector(".feedback");
     feedback.innerHTML = `<strong>${choice === item.correct ? "Correct!" : "Good try."}</strong> ${item.e}`;
     feedback.classList.add("show");
-    root.querySelector(".next").classList.add("show");
+    const nextButton = root.querySelector(".next");
+    nextButton.classList.add("show");
+    nextButton.focus({ preventScroll: true });
     updateProgress();
   }
   render();
@@ -305,3 +345,13 @@ certificate.addEventListener("close", () =>
 );
 certificateName.addEventListener("input", updateCertificateName);
 certificatePrint.addEventListener("click", () => window.print());
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () =>
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch((error) =>
+        console.warn("Offline support could not start.", error),
+      ),
+  );
+}

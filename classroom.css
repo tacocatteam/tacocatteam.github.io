@@ -12,7 +12,7 @@
 }
 
 html {
-  scroll-padding-top: 18px;
+  scroll-padding-top: 64px;
 }
 body.modal-open {
   overflow: hidden;
@@ -88,7 +88,7 @@ body.modal-open {
 }
 .lesson {
   padding: 90px 0;
-  scroll-margin-top: 18px;
+  scroll-margin-top: 64px;
 }
 .lesson-head {
   max-width: 760px;
@@ -517,17 +517,22 @@ body.modal-open {
   font-size: 0.72rem;
   font-weight: 800;
 }
-.quiz-progress > div:last-child {
+.quiz-progress progress {
+  display: block;
+  width: 100%;
   height: 7px;
   margin-top: 9px;
+  border: 0;
   border-radius: 9px;
   background: #bddff0;
   overflow: hidden;
+  appearance: none;
 }
-.quiz-progress i {
-  display: block;
-  width: 16.67%;
-  height: 100%;
+.quiz-progress progress::-webkit-progress-bar {
+  background: #bddff0;
+}
+.quiz-progress progress::-webkit-progress-value,
+.quiz-progress progress::-moz-progress-bar {
   background: linear-gradient(90deg, #075da8, #20bfea);
   transition: 0.3s;
 }
@@ -838,7 +843,7 @@ body.modal-open {
   box-sizing: inherit;
 }
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 body {
   margin: 0;
@@ -1094,7 +1099,15 @@ h3 {
   font-size: 0.88rem;
 }
 .mission:focus-visible,
-.next-mission:focus-visible {
+.next-mission:focus-visible,
+.presentation-nav a:focus-visible,
+.start-button:focus-visible,
+.back-link:focus-visible,
+.answer:focus-visible,
+.game-button:focus-visible,
+summary:focus-visible,
+.certificate-tools input:focus-visible,
+.certificate-tools button:focus-visible {
   outline: 4px solid #ffca35;
   outline-offset: 4px;
 }
@@ -1339,5 +1352,15 @@ footer a {
   }
   footer .wrap {
     display: grid;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="assets/pwa-icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="classroom.css?v=4">
+  <link rel="stylesheet" href="classroom.css?v=5">
 </head>
 <body>
   <a class="skip" href="#missions">Skip to missions</a>
@@ -88,11 +88,11 @@
     </section>
 
     <section class="lesson quiz-lesson presentation-panel" id="mission-quiz" data-slide="05 · QUIZ CHAMPION" aria-labelledby="quiz-title">
-      <div class="wrap quiz-layout"><div class="quiz-intro"><span>MISSION 05 · CHALLENGE</span><h2 id="quiz-title">Wetland Knowledge Quiz</h2><p>Every round draws 10 random questions from a 500-question student science bank. You will not see the same question twice in one round, and a new mix appears when you retry.</p><div class="quiz-tip"><strong>Student tip</strong><span>If you are unsure, eliminate answers that do not use scientific evidence. Read every explanation—it is part of the presentation.</span></div><div class="quiz-progress"><div><span id="class-quiz-label">Question 1 of 10</span><b id="class-quiz-score">Score 0</b></div><div><i id="class-quiz-bar"></i></div></div></div><div class="challenge-card" id="class-knowledge-game"></div></div>
+      <div class="wrap quiz-layout"><div class="quiz-intro"><span>MISSION 05 · CHALLENGE</span><h2 id="quiz-title">Wetland Knowledge Quiz</h2><p>Every round draws 10 random questions from a 500-question student science bank. You will not see the same question twice in one round, and a new mix appears when you retry.</p><div class="quiz-tip"><strong>Student tip</strong><span>If you are unsure, eliminate answers that do not use scientific evidence. Read every explanation—it is part of the presentation.</span></div><div class="quiz-progress"><div><span id="class-quiz-label">Question 1 of 10</span><b id="class-quiz-score" aria-live="polite">Score 0</b></div><progress id="class-quiz-progress" aria-labelledby="class-quiz-label" max="10" value="1">1 of 10</progress></div></div><div class="challenge-card" id="class-knowledge-game"></div></div>
     </section>
 
     <section class="lesson badge-lesson presentation-panel" id="mission-badges" data-slide="06 · BADGES &amp; CERTIFICATE" aria-labelledby="badges-title">
-      <div class="wrap"><div class="lesson-head centered"><span>MISSION 06 · REWARDS</span><h2 id="badges-title">Your mission badges</h2><p>Progress is saved on this device. Complete both challenges and earn a perfect Water Detective score to unlock the certificate.</p></div><div class="badge-grid">
+      <div class="wrap"><div class="lesson-head centered"><span>MISSION 06 · REWARDS</span><h2 id="badges-title">Your mission badges</h2><p>Progress is saved on this device. Complete each challenge to earn its badge, and score 6/6 in Water Detective to unlock the certificate.</p></div><div class="badge-grid">
         <article data-class-achievement="knowledge"><span aria-hidden="true">?</span><div><small>KNOWLEDGE BADGE</small><h3>Wetland Scholar</h3><p class="badge-status">Locked · Finish the quiz</p></div></article>
         <article data-class-achievement="detective"><span aria-hidden="true">⌕</span><div><small>DETECTIVE BADGE</small><h3>Water Detective</h3><p class="badge-status">Locked · Finish every case</p></div></article>
         <article class="certificate-card"><span aria-hidden="true">★</span><div><small>CERTIFICATE</small><h3>Mission Complete</h3><p id="class-certificate-status">Earn a 6/6 Water Detective score to unlock your certificate.</p><button id="class-open-certificate" type="button" disabled>Locked</button></div></article>
@@ -121,6 +121,6 @@
 
   <footer><div class="wrap"><span>Team Tacocat · FLL Team #34043</span><a href="#missions">Choose another mission ↑</a></div></footer>
   <script src="question-bank.js?v=2"></script>
-  <script src="classroom.js?v=4"></script>
+  <script src="classroom.js?v=5"></script>
 </body>
 </html>
