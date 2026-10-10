@@ -42,6 +42,8 @@ let tacoChatReadAloud=false;
 let tacoChatVoices=[];
 let tacoChatAudio=null;
 let tacoChatAudioUrl='';
+let tacoChatSpeechRequest=null;
+let tacoChatSpeechGeneration=0;
 
 function refreshTacoChatVoices(){
   tacoChatVoices=window.speechSynthesis?.getVoices()||[];
@@ -70,6 +72,9 @@ function addTacoChatNotice(text){
 }
 
 function stopTacoChatSpeech(){
+  tacoChatSpeechGeneration++;
+  tacoChatSpeechRequest?.abort();
+  tacoChatSpeechRequest=null;
   window.speechSynthesis?.cancel();
   if(tacoChatAudio){tacoChatAudio.pause();tacoChatAudio=null}
   if(tacoChatAudioUrl){URL.revokeObjectURL(tacoChatAudioUrl);tacoChatAudioUrl=''}
@@ -87,26 +92,37 @@ function speakWithBrowserVoice(text){
 }
 
 async function speakTacoChat(text){
-  if(!tacoChatReadAloud||!tacoChatCanPlayAudio)return;
+  if(!tacoChatReadAloud||!tacoChatCanPlayAudio||tacoChatPanel?.hidden)return;
   stopTacoChatSpeech();
+  const generation=tacoChatSpeechGeneration;
+  const request=new AbortController();
+  tacoChatSpeechRequest=request;
   const spokenText=String(text).replace(/\s*meow!?\s*$/i,'').trim();
-  if(!spokenText)return;
+  if(!spokenText){tacoChatSpeechRequest=null;return}
   try{
     const response=await fetch(`${tacoChatEndpoint}speech`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({text:spokenText})
+      body:JSON.stringify({text:spokenText}),
+      signal:request.signal
     });
     if(!response.ok)throw new Error('Voice request failed');
-    tacoChatAudioUrl=URL.createObjectURL(await response.blob());
-    tacoChatAudio=new Audio(tacoChatAudioUrl);
-    tacoChatAudio.addEventListener('ended',()=>{
-      if(tacoChatAudioUrl)URL.revokeObjectURL(tacoChatAudioUrl);
+    const audioBlob=await response.blob();
+    if(generation!==tacoChatSpeechGeneration||!tacoChatReadAloud||tacoChatPanel?.hidden)return;
+    tacoChatSpeechRequest=null;
+    const audioUrl=URL.createObjectURL(audioBlob);
+    const audio=new Audio(audioUrl);
+    tacoChatAudioUrl=audioUrl;
+    tacoChatAudio=audio;
+    audio.addEventListener('ended',()=>{
+      if(tacoChatAudio!==audio)return;
+      URL.revokeObjectURL(audioUrl);
       tacoChatAudio=null;
       tacoChatAudioUrl='';
     },{once:true});
-    await tacoChatAudio.play();
+    await audio.play();
   }catch{
+    if(generation!==tacoChatSpeechGeneration||!tacoChatReadAloud||tacoChatPanel?.hidden)return;
     stopTacoChatSpeech();
     speakWithBrowserVoice(spokenText);
   }
@@ -128,9 +144,9 @@ if(TacoChatSpeechRecognition){
   tacoChatRecognition.maxAlternatives=1;
   tacoChatRecognition.addEventListener('start',()=>{tacoChatSubmitTranscript=false;setTacoChatListening(true)});
   tacoChatRecognition.addEventListener('result',event=>{
-    let transcript='';
-    for(let index=event.resultIndex;index<event.results.length;index++)transcript+=event.results[index][0].transcript;
-    tacoChatInput.value=transcript.trim();
+    const transcript=[];
+    for(let index=0;index<event.results.length;index++)transcript.push(event.results[index][0].transcript.trim());
+    tacoChatInput.value=transcript.join(' ').trim().slice(0,tacoChatInput.maxLength);
     tacoChatSubmitTranscript=event.results[event.results.length-1].isFinal&&Boolean(tacoChatInput.value);
   });
   tacoChatRecognition.addEventListener('error',event=>{
@@ -294,7 +310,7 @@ tacoChatForm?.addEventListener('submit',async event=>{
   tacoChatInput.disabled=false;
   tacoChatSubmit.disabled=false;
   tacoChatPanel.removeAttribute('aria-busy');
-  tacoChatInput.focus();
+  if(!tacoChatPanel.hidden)tacoChatInput.focus();
 });
 
 document.addEventListener('keydown',event=>{
