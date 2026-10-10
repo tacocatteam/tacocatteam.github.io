@@ -61,6 +61,20 @@ const knowledgeQuestions = window.TacoCatQuestionBank || [];
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+// Reapply deep links after web fonts finish loading so tall missions do not
+// shift the requested section away from the sticky chapter navigation.
+window.addEventListener("load", async () => {
+  await document.fonts?.ready;
+  const destination = document.getElementById(location.hash.slice(1));
+  if (!destination) return;
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() =>
+      destination.scrollIntoView({ behavior: "auto", block: "start" }),
+    ),
+  );
+});
 
 // Mission controls scroll inside Classroom Mode instead of navigating away.
 document.querySelectorAll("[data-mission]").forEach((control) => {
