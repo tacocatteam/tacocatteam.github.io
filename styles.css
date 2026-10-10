@@ -82,7 +82,7 @@ footer{background:#061b2b}
 /* Bright, playful blue edition */
 :root{--forest:#075da8;--deep:#064982;--moss:#0e8fd4;--leaf:#70e0ff;--water:#20bfea;--cream:#eefaff;--paper:#fbfdff;--ink:#073b64;--muted:#52758e;--line:#c8e5f4;--sun:#ffd45e;--coral:#ff8f75;--shadow:0 24px 60px rgba(5,91,166,.18)}
 .hero{background:linear-gradient(135deg,#087bd1 0%,#0756ad 48%,#19b7df 100%)}
-.hero-glow{width:760px;height:760px;background:rgba(112,224,255,.27)}
+.hero-glow{width:760px;height:760px;background:rgba(112,224,255,.27);filter:none}
 .hero:after{border-width:2px;border-color:rgba(255,255,255,.2)}
 .eyebrow{color:#d9f8ff}.hero h1 em{color:#8beaff}.story-strip b{color:#ffe071}
 .button.primary{background:#ffd45e;color:#073b64;box-shadow:0 8px 0 #e6aa20}.button.primary:hover{background:#ffe27c;transform:translateY(-3px)}
