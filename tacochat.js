@@ -308,3 +308,11 @@ document.addEventListener('keydown',event=>{
     else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
   }
 });
+
+const tacoChatLaunchParams=new URLSearchParams(window.location.search);
+if(tacoChatLaunchParams.get('tacochat')==='open'){
+  setTacoChat(true);
+  tacoChatLaunchParams.delete('tacochat');
+  const remainingQuery=tacoChatLaunchParams.toString();
+  window.history.replaceState(null,'',`${window.location.pathname}${remainingQuery?`?${remainingQuery}`:''}${window.location.hash}`);
+}

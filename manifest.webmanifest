@@ -37,7 +37,7 @@
     {
       "name": "TacoChat",
       "short_name": "TacoChat",
-      "url": "./#timeline"
+      "url": "./?tacochat=open"
     }
   ]
 }

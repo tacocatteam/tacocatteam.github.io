@@ -1,4 +1,4 @@
-const CACHE_NAME='tacocat-water-watch-v24';
+const CACHE_NAME='tacocat-water-watch-v25';
 const APP_SHELL=[
   './',
   './index.html',
@@ -12,7 +12,7 @@ const APP_SHELL=[
   './monitor-modal.css?v=6',
   './tacochat.css?v=10',
   './script.js?v=11',
-  './tacochat.js?v=20',
+  './tacochat.js?v=21',
   './water-quality-monitor.html?v=6',
   './assets/tacocat-right.png',
   './assets/wetland.png',
