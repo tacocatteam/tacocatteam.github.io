@@ -134,3 +134,9 @@ footer{background:#061b2b}
 /* Classroom navigation */
 .nav-links{gap:16px}.nav-links .classroom-open{border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:7px 12px;background:rgba(255,255,255,.12);color:#fff;opacity:1;white-space:nowrap}.nav-links .classroom-open:hover{background:#ffd45e;border-color:#ffd45e;color:#073b64}
 @media(max-width:1120px){.nav-links{position:absolute;top:88px;left:20px;right:20px;background:var(--paper);color:var(--ink);border-radius:16px;box-shadow:var(--shadow);padding:18px;display:none;flex-direction:column;align-items:flex-start}.nav-links.open{display:flex}.menu-toggle{display:grid;gap:4px;background:transparent;border:0;padding:10px}.menu-toggle span:not(.sr-only){display:block;width:23px;height:2px;background:white}.nav-links .classroom-open{border-color:#9bcfe8;background:#e9f7fd;color:#075da8}}
+
+/* Footer brand spacing */
+.footer-brand{margin-bottom:22px}
+.footer-project-copy{display:grid;gap:8px;margin:0;line-height:1.55}
+.footer-project-copy span{display:block}
+@media(max-width:560px){.footer-brand{margin-bottom:26px}.footer-project-copy{gap:10px;line-height:1.6}}
