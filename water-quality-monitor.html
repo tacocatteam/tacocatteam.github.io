@@ -33,6 +33,6 @@
     </section>
     <aside class="method"><h2>Waiting for deployment</h2><p><strong>The centered markers and flat graph lines mean that no measurements have been received.</strong> Real readings will appear only after the sensors are deployed and checked.</p></aside>
   </main>
-  <script>function selectSensor(){document.querySelectorAll('[data-sensor]').forEach(card=>card.classList.toggle('selected',card.dataset.sensor===location.hash.slice(1)))}selectSensor();addEventListener('hashchange',selectSensor);</script>
+  <script>function selectSensor(){document.querySelectorAll('[data-sensor]').forEach(card=>card.classList.toggle('selected',card.dataset.sensor===location.hash.slice(1)))}selectSensor();addEventListener('hashchange',selectSensor);addEventListener('keydown',event=>{if(event.key==='Escape'&&parent!==window)parent.postMessage({type:'close-water-quality-monitor'},location.origin)});</script>
 </body>
 </html>
