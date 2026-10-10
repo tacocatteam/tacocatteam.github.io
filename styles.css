@@ -53,6 +53,7 @@
 @media print{body>*:not(#certificate-dialog){display:none!important}.certificate-dialog{display:block!important;position:static;width:100%;max-height:none;margin:0;padding:0;border-radius:0;box-shadow:none;overflow:visible}.certificate-controls{display:none}.certificate-sheet{width:100%;height:auto;margin:0;transform:none;page-break-inside:avoid}}
 @page{size:landscape;margin:8mm}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+.species b{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;font-size:2.15rem;line-height:1;transition:transform .25s}.species:hover b{transform:scale(1.12)}
 .brand small{display:block;font:700 .48rem/1.15 Manrope;letter-spacing:.16em;color:var(--leaf);margin-bottom:3px}
 .quality-grid,.monitor-grid{grid-template-columns:repeat(4,1fr);gap:14px}.quality-card[data-color="green"]{background:#e3eee5}.quality-card[data-color="green"] .quality-symbol{color:#4d7f5d}@media(max-width:900px){.quality-grid,.monitor-grid{grid-template-columns:1fr}}
 .team-intro{margin-top:34px;background:var(--forest);color:#fff;border-radius:24px;padding:34px 38px;display:grid;grid-template-columns:.55fr 1.45fr;gap:48px;align-items:center;box-shadow:var(--shadow)}
