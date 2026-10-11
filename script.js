@@ -17,9 +17,9 @@ function shuffle(items){const copy=[...items];for(let i=copy.length-1;i>0;i--){c
 function prepareQuestions(items,limit=items.length){return shuffle(items).slice(0,limit).map(item=>{const choices=shuffle(item.a.map((text,index)=>({text,isCorrect:index===item.correct})));return{...item,a:choices.map(choice=>choice.text),correct:choices.findIndex(choice=>choice.isCorrect)}})}
 
 const achievementKey='tacocat-achievements-v1';
-function loadAchievements(){try{return JSON.parse(localStorage.getItem(achievementKey))||{}}catch{return{}}}
-const achievements=loadAchievements();
-function saveAchievement(type,score,total){const previous=achievements[type],bestScore=Math.max(previous?.score||0,score);achievements[type]={completed:true,perfect:Boolean(previous?.perfect||score===total),score:bestScore,total,date:new Date().toISOString()};try{localStorage.setItem(achievementKey,JSON.stringify(achievements))}catch{}updateAchievements()}
+try{localStorage.removeItem(achievementKey)}catch{}
+const achievements={};
+function recordAchievement(type,score,total){const previous=achievements[type],bestScore=Math.max(previous?.score||0,score);achievements[type]={completed:true,perfect:Boolean(previous?.perfect||score===total),score:bestScore,total};updateAchievements()}
 function updateAchievements(){
   document.querySelectorAll('[data-achievement]').forEach(card=>{
     const achievement=achievements[card.dataset.achievement];
@@ -47,7 +47,7 @@ function createQuiz(rootId,sourceQuestions,type){
     if(!root)return;
     if(!questions.length){root.innerHTML='<div class="result"><h3 tabindex="-1">Questions are unavailable</h3><p>Please refresh the page and try again.</p></div>';focusCurrent();return}
     if(index>=questions.length){
-      if(!completionRecorded){saveAchievement(type,score,questions.length);completionRecorded=true}
+      if(!completionRecorded){recordAchievement(type,score,questions.length);completionRecorded=true}
       root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p>${type==='detective'?'<a class="button primary" href="#achievements">View certificate ↓</a>':''}<button class="button primary restart">Try again ↻</button></div>`;
       root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions,questionCount);index=0;score=0;answered=false;completionRecorded=false;update();render();focusCurrent()};
       focusCurrent();

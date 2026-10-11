@@ -164,15 +164,11 @@ function prepareQuestions(items, limit = items.length) {
 }
 
 const achievementKey = "tacocat-achievements-v1";
-function loadAchievements() {
-  try {
-    return JSON.parse(localStorage.getItem(achievementKey)) || {};
-  } catch {
-    return {};
-  }
-}
-const achievements = loadAchievements();
-function saveAchievement(type, score, total) {
+try {
+  localStorage.removeItem(achievementKey);
+} catch {}
+const achievements = {};
+function recordAchievement(type, score, total) {
   const previous = achievements[type];
   const bestScore = Math.max(previous?.score || 0, score);
   achievements[type] = {
@@ -180,11 +176,7 @@ function saveAchievement(type, score, total) {
     perfect: Boolean(previous?.perfect || score === total),
     score: bestScore,
     total,
-    date: new Date().toISOString(),
   };
-  try {
-    localStorage.setItem(achievementKey, JSON.stringify(achievements));
-  } catch {}
   updateAchievements();
 }
 function updateAchievements() {
@@ -259,7 +251,7 @@ function createChallenge(rootId, source, type) {
   function render() {
     if (index >= questions.length) {
       if (!recorded) {
-        saveAchievement(type, score, questions.length);
+        recordAchievement(type, score, questions.length);
         recorded = true;
       }
       root.innerHTML = `<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type === "detective" ? "Case files complete!" : "Quiz complete!"}</h3><p>${score === questions.length ? "Excellent work—you followed every clue." : "Good investigation. Review the clues and try again to improve your score."}</p><a class="game-button show" href="#mission-badges">View my badges ↓</a><button class="game-button restart" type="button">Try again ↻</button></div>`;
