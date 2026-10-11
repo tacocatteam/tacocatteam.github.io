@@ -17,7 +17,8 @@
 .achievement-card p,.certificate-unlock p{margin:0;color:#5c788a;font-size:.88rem}
 .achievement-status{display:block;margin-top:16px;color:#778d99;font-size:.74rem}
 .achievement-card.unlocked .achievement-status{color:#157950}
-.certificate-unlock{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:32px 36px;border-radius:28px;background:linear-gradient(120deg,#073b64,#075da8);color:#fff;box-shadow:0 24px 60px rgba(7,59,100,.2)}
+.certificate-unlock{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:32px 30px;border-radius:28px;background:linear-gradient(120deg,#073b64,#075da8);color:#fff;box-shadow:0 24px 60px rgba(7,59,100,.2)}
+.certificate-unlock span{color:#a4e8ff}
 .certificate-unlock h3{color:#fff}
 .certificate-unlock p{color:#d6edfa}
 .certificate-button{flex:0 0 auto;min-width:150px;background:#8297a4;color:#fff;cursor:not-allowed}

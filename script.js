@@ -29,13 +29,13 @@ function updateAchievements(){
     const status=card.querySelector('.achievement-status');
     if(status)status.textContent=unlocked?`Unlocked · Score ${achievement.score}/${achievement.total}`:(card.dataset.achievement==='knowledge'?'Locked · Finish the quiz':'Locked · Finish every case');
   });
-  const certificateButton=document.getElementById('open-certificate');
-  const certificateStatus=document.getElementById('certificate-status');
-  const certificateReady=Boolean(achievements.detective?.perfect||(
-    achievements.detective?.completed&&achievements.detective.score===achievements.detective.total
-  ));
-  if(certificateButton){certificateButton.disabled=!certificateReady;certificateButton.classList.toggle('unlocked',certificateReady);certificateButton.textContent=certificateReady?'Create certificate':'Locked'}
-  if(certificateStatus)certificateStatus.textContent=certificateReady?'Your Water Detective certificate is unlocked and ready to personalize.':achievements.detective?.completed?'You completed every case. Earn a 6/6 score to unlock the certificate.':'Earn a 6/6 Water Detective score to unlock your personalized certificate.';
+  for(const [type,score,label] of [['detective','6/6','Water Detective'],['knowledge','10/10','Knowledge Quiz']]){
+    const button=document.getElementById(`open-certificate-${type}`);
+    const status=document.getElementById(`certificate-status-${type}`);
+    const ready=Boolean(achievements[type]?.perfect);
+    if(button){button.disabled=!ready;button.classList.toggle('unlocked',ready);button.textContent=ready?'Create certificate':'Locked'}
+    if(status)status.textContent=ready?`Your ${label} certificate is unlocked and ready to personalize.`:achievements[type]?.completed?`Try again and earn ${score} to unlock this certificate.`:`Earn a ${score} ${label} score to unlock this certificate.`;
+  }
 }
 
 function createQuiz(rootId,sourceQuestions,type){
@@ -48,7 +48,7 @@ function createQuiz(rootId,sourceQuestions,type){
     if(!questions.length){root.innerHTML='<div class="result"><h3 tabindex="-1">Questions are unavailable</h3><p>Please refresh the page and try again.</p></div>';focusCurrent();return}
     if(index>=questions.length){
       if(!completionRecorded){recordAchievement(type,score,questions.length);completionRecorded=true}
-      root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p>${type==='detective'?'<a class="button primary" href="#achievements">View certificate ↓</a>':''}<button class="button primary restart">Try again ↻</button></div>`;
+      root.innerHTML=`<div class="result"><div class="result-score">${score}/${questions.length}</div><h3 tabindex="-1">${type==='detective'?'Great Swamp Water Detective!':'Wetland knowledge unlocked!'}</h3><p>${score===questions.length?'Excellent work—you followed every clue.':'Challenge complete! Review the clues and try again to improve your score.'}</p><a class="button primary" href="#achievements">View certificates ↓</a><button class="button primary restart">Try again ↻</button></div>`;
       root.querySelector('.restart').onclick=()=>{questions=prepareQuestions(sourceQuestions,questionCount);index=0;score=0;answered=false;completionRecorded=false;update();render();focusCurrent()};
       focusCurrent();
       update();return;
@@ -89,10 +89,25 @@ const certificateName=document.getElementById('certificate-name');
 const certificateRecipient=document.getElementById('certificate-recipient');
 const certificatePrint=document.getElementById('print-certificate');
 const certificateDate=document.getElementById('certificate-date');
-const openCertificate=document.getElementById('open-certificate');
+const certificateDetails={
+  detective:{title:'Great Swamp Water Detective',mark:'⌕',copy:'for completing all six Water Detective case files and demonstrating curiosity, careful observation, and an understanding of how water-quality clues help us care for wetlands.',score:'6/6',seal:'CASES COMPLETE'},
+  knowledge:{title:'Great Swamp Knowledge Quiz',mark:'✦',copy:'for answering all ten Knowledge Quiz questions correctly and showing an understanding of wetlands, water quality, and the Great Swamp.',score:'10/10',seal:'QUESTIONS CORRECT'}
+};
 if(certificateDate)certificateDate.textContent=new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(new Date());
 function syncCertificateName(){const name=certificateName?.value.trim()||'';if(certificateRecipient)certificateRecipient.textContent=name||'Your Name';if(certificatePrint)certificatePrint.disabled=!name}
-openCertificate?.addEventListener('click',()=>{if(!openCertificate.disabled){syncCertificateName();certificateDialog?.showModal()}});
+document.querySelectorAll('.certificate-button[data-certificate]').forEach(button=>button.addEventListener('click',()=>{
+  const type=button.dataset.certificate;
+  if(button.disabled||!achievements[type]?.perfect)return;
+  const details=certificateDetails[type];
+  certificateDialog.dataset.certificate=type;
+  document.getElementById('certificate-title').textContent=details.title;
+  document.getElementById('certificate-mark').textContent=details.mark;
+  document.getElementById('certificate-copy').textContent=details.copy;
+  document.getElementById('certificate-score').textContent=details.score;
+  document.getElementById('certificate-seal-label').textContent=details.seal;
+  syncCertificateName();
+  certificateDialog.showModal();
+}));
 certificateDialog?.querySelector('.certificate-close')?.addEventListener('click',()=>certificateDialog.close());
 certificateDialog?.addEventListener('click',event=>{if(event.target===certificateDialog)certificateDialog.close()});
 certificateName?.addEventListener('input',syncCertificateName);

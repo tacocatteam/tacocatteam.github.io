@@ -191,22 +191,19 @@ function updateAchievements() {
           ? "Locked · Finish the quiz"
           : "Locked · Finish every case";
   });
-  const ready = Boolean(achievements.detective?.perfect),
-    button = document.getElementById("class-open-certificate"),
-    status = document.getElementById("class-certificate-status");
-  if (button) {
+  for (const [type, score, label] of [["detective", "6/6", "Water Detective"], ["knowledge", "10/10", "Knowledge Quiz"]]) {
+    const ready = Boolean(achievements[type]?.perfect);
+    const button = document.getElementById(`class-open-certificate-${type}`);
+    const status = document.getElementById(`class-certificate-status-${type}`);
     button.disabled = !ready;
     button.textContent = ready ? "Create certificate" : "Locked";
-  }
-  if (status)
     status.textContent = ready
-      ? "Your Water Detective certificate is unlocked."
-      : achievements.detective?.completed
-        ? "Try the cases again and earn 6/6 to unlock the certificate."
-        : "Earn a 6/6 Water Detective score to unlock your certificate.";
-  document
-    .querySelector(".certificate-card")
-    ?.classList.toggle("unlocked", ready);
+      ? `Your ${label} certificate is unlocked.`
+      : achievements[type]?.completed
+        ? `Try again and earn ${score} to unlock this certificate.`
+        : `Earn a ${score} ${label} score to unlock this certificate.`;
+    button.closest(".certificate-card").classList.toggle("unlocked", ready);
+  }
 }
 
 function createChallenge(rootId, source, type) {
@@ -318,10 +315,21 @@ createChallenge("class-knowledge-game", knowledgeQuestions, "knowledge");
 updateAchievements();
 
 const certificate = document.getElementById("class-certificate"),
-  certificateOpen = document.getElementById("class-open-certificate"),
   certificateName = document.getElementById("class-certificate-name"),
   certificateRecipient = document.getElementById("class-certificate-recipient"),
   certificatePrint = document.getElementById("class-print-certificate");
+const certificateDetails = {
+  detective: {
+    title: "Great Swamp Water Detective",
+    copy: "for completing all six Water Detective cases and demonstrating careful observation and an understanding of water-quality clues.",
+    score: "6/6 CASES COMPLETE",
+  },
+  knowledge: {
+    title: "Great Swamp Knowledge Quiz",
+    copy: "for answering all ten Knowledge Quiz questions correctly and showing an understanding of wetlands, water quality, and the Great Swamp.",
+    score: "10/10 QUESTIONS CORRECT",
+  },
+};
 document.getElementById("class-certificate-date").textContent =
   new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -333,13 +341,19 @@ function updateCertificateName() {
   certificateRecipient.textContent = name || "Your Name";
   certificatePrint.disabled = !name;
 }
-certificateOpen.addEventListener("click", () => {
-  if (!certificateOpen.disabled) {
+document.querySelectorAll(".certificate-card button[data-certificate]").forEach(button => button.addEventListener("click", () => {
+  const type = button.dataset.certificate;
+  if (!button.disabled && achievements[type]?.perfect) {
+    const details = certificateDetails[type];
+    certificate.dataset.certificate = type;
+    document.getElementById("class-certificate-title").textContent = details.title;
+    document.getElementById("class-certificate-copy").textContent = details.copy;
+    document.getElementById("class-certificate-score").textContent = details.score;
     updateCertificateName();
     certificate.showModal();
     document.body.classList.add("modal-open");
   }
-});
+}));
 certificate
   .querySelector(".class-certificate-close")
   .addEventListener("click", () => certificate.close());
