@@ -226,11 +226,15 @@ function addTacoChatMessage(text,fromUser=false){
 
 function getTacoChatFollowUps(message){
   const normalized=message.toLowerCase();
-  if(/team taco\s*cat|team tacocat|your team/.test(normalized))return['Why did Team Tacocat choose a rain garden?','How will the team test its idea?'];
-  if(/runoff|stormwater|salt/.test(normalized))return['How can a rain garden slow runoff?','What can runoff carry?'];
-  if(/plant|wildlife|biodiversity/.test(normalized))return['Which plants could suit a rain garden?','How can a garden support wildlife?'];
-  if(/model|test|experiment/.test(normalized))return['What are the three model setups?','Why use a control model?'];
-  return['What is a rain garden?','What is Team Tacocat planning next?'];
+  let questions;
+  if(/team taco\s*cat|team tacocat|your team/.test(normalized))questions=['What are the three model setups?','What is a rain garden?'];
+  else if(/runoff|stormwater|salt/.test(normalized))questions=['What is a rain garden?','Why use a control model?'];
+  else if(/plant|wildlife|biodiversity/.test(normalized))questions=['What can runoff carry?','What should the team test next?'];
+  else if(/model|test|experiment/.test(normalized))questions=['What are the three model setups?','Why use a control model?'];
+  else questions=['Why does slowing runoff matter?','What are the three model setups?'];
+  const normalize=value=>value.toLowerCase().replace(/[^a-z0-9]/g,'').replace(/(?:howdoes|howcan|whatisa|whatdoes)/,'');
+  const asked=normalize(message);
+  return questions.filter(question=>normalize(question)!==asked);
 }
 
 function submitTacoChatQuestion(question){
@@ -265,6 +269,10 @@ function getTacoChatPreviewReply(message){
   if(tacoChatPiQuestion.test(normalized))return tacoChatPiDescription;
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
   if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
+  if(/\bcontrol\b/.test(normalized))return 'A control model provides a comparison. Team Tacocat can compare its empty setup with grass-and-soil and layered rain-garden models while keeping the test conditions as similar as possible. Meow!';
+  if(/\b(?:biodiversity|wildlife|native plants?)\b/.test(normalized))return 'A rain garden can support local biodiversity when it uses native plants suited to the site. Those plants may provide food and shelter for insects and other wildlife. The team has not chosen its final plants yet. Meow!';
+  if(/\b(?:runoff|stormwater)\b/.test(normalized))return 'Runoff is rain or melting snow moving across a surface. A rain garden can receive some of that water, slow it down, and let it soak into suitable soil. Moving water can also carry sediment, litter, nutrients, or salt. Meow!';
+  if(/\b(?:model|experiment|test)\b/.test(normalized))return 'The draft comparison has an empty control, a grass-and-soil model, and a layered rain-garden model. The team has not published confirmed final results yet. Meow!';
   const match=tacoChatAnswers.find(item=>item.terms.some(term=>normalized.includes(term)));
   return match?.answer||'TacoChat is temporarily unavailable. Please try again soon. Meow!';
 }
