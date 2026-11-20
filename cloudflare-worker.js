@@ -1,5 +1,6 @@
 const SITE_ORIGIN = 'https://tacocatteam.github.io';
 const MODEL = '@cf/meta/llama-3.2-1b-instruct';
+const FALLBACK_MODEL = '@cf/google/gemma-4-26b-a4b-it';
 const SPEECH_MODEL = '@cf/deepgram/aura-2-en';
 const SPEECH_VOICE = 'luna';
 const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043. We use research, engineering, coding, robotics, and teamwork to solve real-world problems. For the 2026–27 BIOGLOW season, our Innovation Project is a proposed school rain garden. We are exploring how a shallow planted area could slow runoff, help water soak into the ground, and support local biodiversity. The team has drafted model comparisons and is still working through site choice, testing, plants, and a full garden plan. Meow!';
@@ -79,7 +80,7 @@ export default {
         ? new Response(null, { status: 403 })
         : new Response(null, { status: 204, headers: headers(origin) });
     }
-    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Llama 3.2 1B', release: 'llama-1b-v5' }, 200, origin);
+    if (request.method === 'GET') return json({ ok: true, name: 'TacoChat AI', model: 'Llama 3.2 1B with Gemma 4 fallback', release: 'rain-garden-v2' }, 200, origin);
     if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405, origin);
     if (origin && origin !== SITE_ORIGIN) return json({ error: 'Origin not allowed.' }, 403, origin);
     if (url.pathname === '/speech') return speechResponse(request, env, origin);
@@ -122,8 +123,26 @@ export default {
       if (!reply) reply = "Sorry, I couldn't answer that right now. Meow!";
       if (!/meow!?$/i.test(reply)) reply += ' Meow!';
       return json({ reply }, 200, origin);
-    } catch {
-      return json({ error: 'TacoChat is temporarily unavailable. Please try again soon. Meow!' }, 503, origin);
+    } catch (primaryError) {
+      console.warn('Primary Workers AI model unavailable', primaryError);
+      try {
+        const fallback = await env.AI.run(FALLBACK_MODEL, {
+          messages: [
+            { role: 'system', content: 'You are TacoChat, the friendly assistant for FIRST LEGO League team #34043. Their current 2026–27 BIOGLOW project is a proposed school rain garden to slow runoff and support native plants and biodiversity. The full garden and test results are not confirmed. Answer the user directly in 2–4 clear, student-friendly sentences. Do not invent team facts. End with Meow!' },
+            { role: 'user', content: message }
+          ],
+          max_tokens: 150,
+          temperature: 0.35,
+          chat_template_kwargs: { enable_thinking: false }
+        });
+        let reply = String(fallback.response || fallback.choices?.[0]?.message?.content || '').trim();
+        if (!reply) throw new Error('Fallback returned no text');
+        if (!/meow!?$/i.test(reply)) reply += ' Meow!';
+        return json({ reply, fallback: true }, 200, origin);
+      } catch (fallbackError) {
+        console.error('Both Workers AI models unavailable', fallbackError);
+        return json({ error: 'TacoChat is temporarily unavailable. Please try again soon. Meow!' }, 503, origin);
+      }
     }
   }
 };
