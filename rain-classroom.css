@@ -1,5 +1,7 @@
 .classroom-header .brand-mark{display:grid;place-items:center;overflow:hidden}
 .classroom-header .brand-mark img{width:100%;height:100%;object-fit:contain}
+.presentation-nav .site-exit{margin-right:10px;border:1px solid #9dcde7;background:#e5f5ff;color:#075da8}
+.presentation-nav .site-exit:hover,.presentation-nav .site-exit:focus-visible{background:#075da8;color:#fff}
 .model-in-class{max-width:900px;margin:2rem auto;padding:16px;border-radius:24px;background:white;box-shadow:0 20px 55px #075da818}
 .model-in-class img{display:block;width:100%;height:auto;border-radius:12px}
 .model-in-class figcaption{text-align:center;color:#557287;padding:12px 0 0}

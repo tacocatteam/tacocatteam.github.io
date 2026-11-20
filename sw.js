@@ -1,10 +1,10 @@
-const CACHE_NAME='tacocat-rain-garden-v6';
+const CACHE_NAME='tacocat-rain-garden-v7';
 const APP_SHELL=[
   './',
   './index.html',
   './classroom.html',
   './classroom.css?v=6',
-  './rain-classroom.css?v=1',
+  './rain-classroom.css?v=2',
   './classroom.js?v=9',
   './question-bank.js?v=3',
   './manifest.webmanifest',
