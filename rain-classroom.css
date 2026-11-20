@@ -1,0 +1,20 @@
+.classroom-header .brand-mark{display:grid;place-items:center;overflow:hidden}
+.classroom-header .brand-mark img{width:100%;height:100%;object-fit:contain}
+.model-in-class{max-width:900px;margin:2rem auto;padding:16px;border-radius:24px;background:white;box-shadow:0 20px 55px #075da818}
+.model-in-class img{display:block;width:100%;height:auto;border-radius:12px}
+.model-in-class figcaption{text-align:center;color:#557287;padding:12px 0 0}
+.lesson-question{max-width:950px;margin:2rem auto;padding:2rem;border-radius:22px;background:#fff;box-shadow:0 16px 45px #075da812;color:#173e57}
+.lesson-question h3{font-family:Manrope,sans-serif;font-size:1.6rem;margin:0 0 .5rem}
+.lesson-question details{margin-top:1rem;border-top:1px solid #c5e3f1;padding-top:1rem}
+.lesson-question summary{cursor:pointer;color:#075da8;font-weight:700}
+.challenge-card .answers{display:grid;gap:.75rem;margin:1.2rem 0}
+.challenge-card .answer{display:block;width:100%;padding:1rem;text-align:left;border:1px solid #b9dff0;border-radius:14px;background:white;color:#143e58;font:inherit;cursor:pointer}
+.challenge-card .answer:hover:not(:disabled){border-color:#147dc3;background:#eaf7fd}
+.challenge-card .answer.correct{background:#dcf5e4;border-color:#39a36b}
+.challenge-card .answer.wrong{background:#ffebea;border-color:#e37769}
+.challenge-card .feedback{display:none;padding:1rem;border-radius:12px;background:#eaf5fb;color:#173e57}
+.challenge-card .feedback.show{display:block}
+.challenge-card .next-button,.challenge-card .restart{margin-top:1rem;padding:.85rem 1.2rem;border:0;border-radius:100px;background:#096ab8;color:white;font:inherit;font-weight:700;cursor:pointer}
+.challenge-card .next-button[hidden]{display:none}
+.challenge-card .question{font-size:1.35rem;font-weight:800;line-height:1.45;color:#103e5d}
+@media(max-width:650px){.model-in-class{padding:8px}.lesson-question{padding:1.3rem}}

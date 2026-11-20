@@ -1,21 +1,20 @@
-const CACHE_NAME='tacocat-water-watch-v32';
+const CACHE_NAME='tacocat-rain-garden-v1';
 const APP_SHELL=[
   './',
   './index.html',
   './classroom.html',
   './classroom.css?v=6',
-  './classroom.js?v=8',
-  './question-bank.js?v=2',
+  './rain-classroom.css?v=1',
+  './classroom.js?v=9',
+  './question-bank.js?v=3',
   './manifest.webmanifest',
   './styles.css?v=10',
-  './timeline.css',
-  './monitor-modal.css?v=6',
+  './rain-garden.css?v=1',
   './tacochat.css?v=10',
-  './script.js?v=14',
-  './tacochat.js?v=22',
-  './water-quality-monitor.html?v=7',
+  './rain-garden.js?v=1',
+  './tacochat.js?v=23',
   './assets/tacocat-right.png',
-  './assets/wetland.png',
+  './assets/rain-garden-model.jpg',
   './assets/pwa-icon-192.png',
   './assets/pwa-icon-512.png'
 ];

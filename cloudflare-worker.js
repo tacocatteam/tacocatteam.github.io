@@ -2,16 +2,16 @@ const SITE_ORIGIN = 'https://tacocatteam.github.io';
 const MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const SPEECH_MODEL = '@cf/deepgram/aura-2-en';
 const SPEECH_VOICE = 'luna';
-const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
+const TEAM_DESCRIPTION = 'Team Tacocat is FIRST LEGO League robotics team #34043. We use research, engineering, coding, robotics, and teamwork to solve real-world problems. For the 2026–27 BIOGLOW season, our Innovation Project is a proposed school rain garden. We are exploring how a shallow planted area could slow runoff, help water soak into the ground, and support local biodiversity. The team has drafted model comparisons and is still working through site choice, testing, plants, and a full garden plan. Meow!';
 const TEAM_QUESTION = /\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
-const PI_DESCRIPTION = 'TacoChat is the website assistant, not a Raspberry Pi. Team Tacocat\u2019s Great Swamp Water Watch system is designed to use a Raspberry Pi 3B+ to collect and organize information from its water-quality sensors. Meow!';
+const PI_DESCRIPTION = 'TacoChat is the website assistant, not a Raspberry Pi. A Raspberry Pi appeared in an earlier water-monitoring concept; the current BIOGLOW project focuses on a proposed rain garden. Meow!';
 const PI_QUESTION = /\braspberry\s*pi\b|\b(?:which|what)\s+pi\b|\bpi\s+model\b/i;
 const IDENTITY_DESCRIPTION = 'I am TacoChat, the official chatbot for the Tacocat Team, how can I help';
 const GREETING = /^\s*(?:hello|hi|hey)(?:\s+(?:there|tacochat))?[!?.,]*\s*$/i;
 const IDENTITY_QUESTION = /\b(?:(?:who|what)\s+(?:are|r)\s+(?:you|u)|who\s+(?:you|u)\s+(?:are|r))\b/i;
 const SHORT_ANSWERS = {
   do: 'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
-  ph: 'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
+  ph: 'pH describes how acidic or basic water is. It is one possible measurement when comparing water samples, but the rain-garden model has no published results yet. Meow!',
   tds: 'TDS stands for total dissolved solids, an estimate of the dissolved substances in water. It is often estimated using conductivity. Meow!'
 };
 
@@ -110,7 +110,7 @@ export default {
         messages: [
           {
             role: 'system',
-            content: 'You are TacoChat, the official chatbot for the Tacocat Team and the friendly website assistant for FIRST LEGO League team #34043 and its Great Swamp Water Watch project. You are not a Raspberry Pi. The project is designed to use a Raspberry Pi 3B+, never a Raspberry Pi 4 Model B. Answer any question directly, including general knowledge questions, short terms, abbreviations, follow-up questions, and phrases such as "your team." Do not reject or redirect a question merely because it is unrelated to Team Tacocat. Give especially helpful answers about Team Tacocat, FIRST LEGO League, the Great Swamp and wetlands, environmental protection, road-salt runoff, water quality, and the planned Raspberry Pi 3B+ monitoring system using pH, conductivity/TDS, dissolved oxygen (DO), and water temperature. The sensors have not been deployed and there are no live readings. Never invent team history, results, dates, measurements, hardware models, or deployment progress; clearly say when team-specific information is unknown. Use clear student-friendly language, usually answer in 2-4 short sentences, and always end with Meow!'
+            content: 'You are TacoChat, the official chatbot for FIRST LEGO League team #34043. The current 2026–27 BIOGLOW Innovation Project is a proposed school rain garden. Team Tacocat is exploring how runoff can be slowed and allowed to soak into suitable soil while native plants support biodiversity. The engineering notebook proposes three model setups: an empty control, grass and soil, and a layered garden with plants, soil, sand, and gravel. A full garden location, drainage, plants, and results are not confirmed. Earlier Great Swamp water monitoring was a previous concept, not the current project. Answer any question directly, including general knowledge and follow-ups. Be especially helpful about Team Tacocat, rain gardens, runoff, native plants, biodiversity, and fair model tests. Never invent team history, measurements, test results, dates, construction progress, or approvals. Use clear student-friendly language, usually 2–4 short sentences, and end with Meow!'
           },
           { role: 'user', content: message }
         ],

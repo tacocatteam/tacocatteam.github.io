@@ -10,26 +10,32 @@ const tacoChatMic=document.getElementById('tacochat-mic');
 const tacoChatSpeakToggle=document.getElementById('tacochat-speak-toggle');
 const tacoChatSuggestions=tacoChatPanel?.querySelectorAll('.tacochat-suggestions button[data-question]');
 const tacoChatEndpoint='https://tacocat.lynnluo829.workers.dev/';
-const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #34043, made up of creative students who use robotics, coding, research, engineering, and teamwork to solve real-world problems. Our current Innovation Project, Great Swamp Water Watch, explores how a Raspberry Pi and water-quality sensors can measure pH, conductivity and TDS, dissolved oxygen, and water temperature. We want to turn these measurements into clear, understandable information that helps people learn about the Great Swamp, recognize changes in water quality, and understand why protecting wetlands and wildlife matters. Meow!';
+const tacoChatTeamDescription='Team Tacocat is FIRST LEGO League robotics team #34043. We use research, engineering, coding, robotics, and teamwork to solve real-world problems. For the 2026–27 BIOGLOW season, our Innovation Project is a proposed school rain garden. We are exploring how a shallow planted area could slow runoff, help water soak into the ground, and support local biodiversity. The team has drafted model comparisons and is still working through site choice, testing, plants, and a full garden plan. Meow!';
 const tacoChatTeamQuestion=/\b(?:team\s+taco\s*cat|team\s+tacocat|your\s+team|about\s+(?:the\s+)?team|who\s+(?:is|are)\s+(?:team\s+)?taco\s*cat)\b/i;
-const tacoChatPiDescription='TacoChat is the website assistant, not a Raspberry Pi. Team Tacocat\u2019s Great Swamp Water Watch system is designed to use a Raspberry Pi 3B+ to collect and organize information from its water-quality sensors. Meow!';
+const tacoChatProjectQuestion=/\b(?:rain\s*garden|runoff|stormwater|garden\s+model|model\s+setup|biodiversity|native\s+plants?|project\s+plan|your\s+project|bioglow)\b/i;
+const tacoChatPiDescription='TacoChat is the website assistant, not a Raspberry Pi. A Raspberry Pi appeared in an earlier water-monitoring concept; the current BIOGLOW project focuses on a proposed rain garden. Meow!';
 const tacoChatPiQuestion=/\braspberry\s*pi\b|\b(?:which|what)\s+pi\b|\bpi\s+model\b/i;
 const tacoChatIdentityDescription='I am TacoChat, the official chatbot for the Tacocat Team, how can I help';
 const tacoChatGreeting=/^(?:hello|hi|hey)(?:\s+(?:there|tacochat))?$/i;
 const tacoChatIdentityQuestion=/\b(?:(?:who|what)\s+(?:are|r)\s+(?:you|u)|who\s+(?:you|u)\s+(?:are|r))\b/i;
 const tacoChatShortAnswers={
   do:'DO stands for dissolved oxygen, the oxygen available in water for fish, insects, and other aquatic organisms to breathe. It can change with temperature, water movement, plant activity, and decomposition. Meow!',
-  ph:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!',
+  ph:'pH describes how acidic or basic water is. It is one possible measurement when comparing water samples, but the rain-garden model has no published results yet. Meow!',
   tds:'TDS stands for total dissolved solids, an estimate of the dissolved substances in water. It is often estimated using conductivity. Meow!'
 };
 
 const tacoChatAnswers=[
-  {terms:['ph'],answer:'pH describes how acidic or basic water is. Team Tacocat plans to track it as one of four water-quality measurements. Meow!'},
+  {terms:['rain garden','raingarden'],answer:'A rain garden is a shallow planted area that receives runoff. Water slows down and can soak into suitable soil, while plants may support local wildlife. Team Tacocat is planning one for our school. Meow!'},
+  {terms:['runoff','stormwater'],answer:'Runoff is rain or melting snow moving across a surface. It can carry soil, litter, fertilizer, or salt downhill. A rain garden could intercept some runoff and give it time to soak into suitable soil. Meow!'},
+  {terms:['model','experiment','test'],answer:'Our draft comparison has three setups: an empty control, grass and soil, and a layered rain-garden model with plants, soil, sand, and gravel. The notebook does not yet provide confirmed final results. Meow!'},
+  {terms:['plant','biodiversity','wildlife'],answer:'A well-planned rain garden can include native plants suited to the site. Those plants may offer food and shelter to local insects and other wildlife. The team still needs to choose plants for a specific school location. Meow!'},
+  {terms:['project','bioglow'],answer:tacoChatTeamDescription},
+  {terms:['ph'],answer:'pH describes how acidic or basic water is. It may help compare water samples in a model test. Meow!'},
   {terms:['conductivity','tds'],answer:'Conductivity responds to dissolved ions in water. TDS estimates the amount of dissolved material, often using conductivity as a clue. Meow!'},
   {terms:['dissolved oxygen','oxygen'],answer:'Dissolved oxygen is the oxygen available in water for fish, insects, and other aquatic organisms. Meow!'},
   {terms:['temperature'],answer:'Water temperature affects aquatic organisms and can influence dissolved oxygen and other water conditions. Meow!'},
-  {terms:['wetland','great swamp','swamp'],answer:'Wetlands provide wildlife habitat, slow floodwater, capture sediment, and connect many parts of an ecosystem. Meow!'},
-  {terms:['tacocat','team','fll','innovation project'],answer:'Team Tacocat is a FIRST LEGO League robotics team developing a Great Swamp water-monitoring project with four sensors and a Raspberry Pi. Meow!'}
+  {terms:['wetland','great swamp','swamp'],answer:'Wetlands provide habitat and help manage water. Our current project is a proposed rain garden at school, inspired by earlier water research. Meow!'},
+  {terms:['tacocat','team','fll','innovation project'],answer:tacoChatTeamDescription}
 ];
 
 const TacoChatSpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -220,12 +226,11 @@ function addTacoChatMessage(text,fromUser=false){
 
 function getTacoChatFollowUps(message){
   const normalized=message.toLowerCase();
-  if(/dissolved oxygen|\bdo\b|oxygen/.test(normalized))return['Why does dissolved oxygen matter?','What affects dissolved oxygen levels?'];
-  if(/road salt|runoff|conductivity|tds/.test(normalized))return['Why is road salt a problem for wetlands?','How can people reduce salt runoff?'];
-  if(/team taco\s*cat|team tacocat|your team/.test(normalized))return['How does your monitoring system work?','Why did Team Tacocat choose the Great Swamp?'];
-  if(/monitor|sensor|raspberry pi|system/.test(normalized))return['What does each sensor measure?','Why track water quality over time?'];
-  if(/wetland|great swamp|wildlife/.test(normalized))return['Why does wetland biodiversity matter?','How can people help protect wetlands?'];
-  return['Why does water quality matter?','How can people help protect wetlands?'];
+  if(/team taco\s*cat|team tacocat|your team/.test(normalized))return['Why did Team Tacocat choose a rain garden?','How will the team test its idea?'];
+  if(/runoff|stormwater|salt/.test(normalized))return['How can a rain garden slow runoff?','What can runoff carry?'];
+  if(/plant|wildlife|biodiversity/.test(normalized))return['Which plants could suit a rain garden?','How can a garden support wildlife?'];
+  if(/model|test|experiment/.test(normalized))return['What are the three model setups?','Why use a control model?'];
+  return['What is a rain garden?','What is Team Tacocat planning next?'];
 }
 
 function submitTacoChatQuestion(question){
@@ -271,6 +276,7 @@ async function getTacoChatReply(message){
   if(tacoChatPiQuestion.test(normalized))return tacoChatPiDescription;
   if(tacoChatTeamQuestion.test(normalized))return tacoChatTeamDescription;
   if(tacoChatShortAnswers[normalized])return tacoChatShortAnswers[normalized];
+  if(tacoChatProjectQuestion.test(normalized))return getTacoChatPreviewReply(message);
   try{
     const response=await fetch(tacoChatEndpoint,{
       method:'POST',
@@ -279,6 +285,7 @@ async function getTacoChatReply(message){
     });
     const data=await response.json();
     if(!response.ok||!data.reply)throw new Error(data.error||'TacoChat request failed');
+    if(/Great Swamp Water Watch|water-monitoring project with four sensors|planned Raspberry Pi 3B\+ monitoring/i.test(data.reply))return tacoChatTeamDescription;
     return data.reply;
   }catch(error){
     console.warn('TacoChat AI unavailable; using the built-in answer.',error);

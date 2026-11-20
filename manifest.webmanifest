@@ -1,7 +1,7 @@
 {
-  "name": "Team Tacocat Great Swamp Water Watch",
-  "short_name": "Water Watch",
-  "description": "Explore wetlands, water quality, Team Tacocat activities, and the Great Swamp Water Watch project.",
+  "name": "Team Tacocat Rain Garden Project",
+  "short_name": "Team Tacocat",
+  "description": "Explore Team Tacocat's BIOGLOW rain garden project and student activities.",
   "id": "./",
   "start_url": "./?source=pwa",
   "scope": "./",
@@ -25,7 +25,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Water Detective",
+      "name": "Garden Detective",
       "short_name": "Detective",
       "url": "./#detective"
     },
