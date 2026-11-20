@@ -4,6 +4,25 @@
 .garden-steps .quality-card{min-height:240px}
 .garden-steps .quality-card .quality-top{margin-bottom:1.2rem}
 .garden-caution{max-width:900px;margin:2rem auto 0;text-align:center;color:#e4f7ff;font-size:1.08rem}
+.garden-guide{background:#f3fbff;color:#0c3553}
+.garden-guide-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:38px}
+.garden-guide-head h2{margin:0;max-width:650px}
+.garden-guide-head p{font-size:1.12rem;line-height:1.7;color:#52758b;margin:0 0 5px}
+.garden-guide-steps{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0;padding:0}
+.garden-guide-steps li{position:relative;background:white;border:1px solid #cde5f3;border-radius:22px;padding:28px 25px;box-shadow:0 18px 42px #104f7710}
+.garden-guide-steps li:not(:last-child):after{content:'→';position:absolute;right:-19px;top:50%;z-index:1;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#0a7bbd;color:white;font-weight:800;transform:translateY(-50%)}
+.garden-guide-steps span{display:block;color:#138bc9;font-size:.7rem;font-weight:800;letter-spacing:.15em;margin-bottom:30px}
+.garden-guide-steps h3{font-size:1.35rem;line-height:1.2;margin-bottom:12px}
+.garden-guide-steps p{color:#567488;font-size:.94rem;line-height:1.6;margin:0}
+.garden-guide-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}
+.garden-guide-details article{background:#e7f5fc;border:1px solid #cde5f3;border-radius:22px;padding:28px 30px}
+.garden-guide-symbol{font-size:1.7rem;color:#0a7bbd;margin-bottom:12px}
+.garden-guide-details h3{font-size:1.25rem;margin-bottom:8px}
+.garden-guide-details p{color:#52758b;line-height:1.65;margin:0}
+.garden-guide-limit{border-left:4px solid #ffc94e;padding:12px 18px;margin:28px 0 8px;background:white;border-radius:0 12px 12px 0;color:#446980}
+.garden-guide-limit strong{color:#0c3553}
+.garden-guide-sources{font-size:.84rem;color:#617e90;margin:12px 0 0}
+.garden-guide-sources a{color:#006ab0;font-weight:700;text-underline-offset:3px}
 .model-figure{margin:0;padding:16px;background:white;border-radius:28px;box-shadow:0 24px 60px #0b48731a}
 .model-figure img{display:block;width:100%;height:auto;border-radius:14px}
 .model-figure figcaption{padding:12px 6px 2px;text-align:center;color:#56768a;font-size:.9rem}
@@ -13,5 +32,5 @@
 .garden-plan-grid .sensor-card:hover{transform:none}
 #team .team-intro{margin-top:0}
 #involved .button{margin-top:2rem}
-@media(max-width:900px){.garden-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.garden-facts{grid-template-columns:1fr}.garden-plan-grid .sensor-card{min-height:auto}}
+@media(max-width:900px){.garden-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.garden-guide-head{grid-template-columns:1fr;gap:16px}.garden-guide-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.garden-guide-steps li:nth-child(2):after{display:none}}
+@media(max-width:600px){.garden-facts{grid-template-columns:1fr}.garden-plan-grid .sensor-card{min-height:auto}.garden-guide-steps,.garden-guide-details{grid-template-columns:1fr}.garden-guide-steps li:after{display:none}.garden-guide-steps li{padding:24px}.garden-guide-steps span{margin-bottom:16px}}
