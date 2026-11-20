@@ -1,11 +1,5 @@
 /* New project content with the team's existing blue visual language. */
-.garden-hero-art{position:relative;overflow:hidden;min-height:600px;background:linear-gradient(180deg,#8bd9f7 0%,#d9f7ff 48%,#81c6a1 48%,#2d845d 100%)}
-.garden-cloud{position:absolute;width:240px;height:75px;top:12%;right:12%;border-radius:100px;background:#fff;box-shadow:-55px 25px 0 -8px #fff,55px 22px 0 -10px #fff;opacity:.95}
-.rain-streaks{position:absolute;top:25%;left:30%;font-size:6rem;letter-spacing:1rem;color:#197db7;transform:rotate(15deg);opacity:.52}
-.garden-hill{position:absolute;width:125%;height:41%;bottom:10%;left:-12%;border-radius:45% 55% 0 0;background:#56a371;transform:rotate(-5deg)}
-.garden-basin{position:absolute;width:91%;height:33%;bottom:8%;left:4%;border-radius:50% 50% 42% 42%;background:linear-gradient(#865b3a 0 28%,#b48457 28% 60%,#dfba80 60% 80%,#847e6b 80%);border:10px solid #508550;box-shadow:0 16px 0 #3c6d48}
-.garden-plants{position:absolute;bottom:29%;left:8%;width:84%;z-index:1;font-size:clamp(2.5rem,5vw,5rem);text-align:center;white-space:nowrap;letter-spacing:.15em}
-.garden-water{position:absolute;width:45%;height:3%;left:28%;bottom:24%;border-radius:50%;background:linear-gradient(90deg,#65c9e855,#b8edff99,#65c9e855);z-index:1}
+.garden-hero-photo img{object-position:center 54%}
 .garden-facts{grid-template-columns:repeat(4,minmax(0,1fr))}
 .garden-steps .quality-card{min-height:240px}
 .garden-steps .quality-card .quality-top{margin-bottom:1.2rem}
@@ -19,5 +13,5 @@
 .garden-plan-grid .sensor-card:hover{transform:none}
 #team .team-intro{margin-top:0}
 #involved .button{margin-top:2rem}
-@media(max-width:900px){.garden-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.garden-hero-art{min-height:440px}.garden-plants{font-size:2.7rem}}
-@media(max-width:600px){.garden-facts{grid-template-columns:1fr}.garden-hero-art{min-height:330px}.garden-plants{font-size:2rem}.rain-streaks{font-size:3rem}.garden-plan-grid .sensor-card{min-height:auto}}
+@media(max-width:900px){.garden-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.garden-facts{grid-template-columns:1fr}.garden-plan-grid .sensor-card{min-height:auto}}

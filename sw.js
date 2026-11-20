@@ -1,4 +1,4 @@
-const CACHE_NAME='tacocat-rain-garden-v3';
+const CACHE_NAME='tacocat-rain-garden-v4';
 const APP_SHELL=[
   './',
   './index.html',
@@ -9,11 +9,12 @@ const APP_SHELL=[
   './question-bank.js?v=3',
   './manifest.webmanifest',
   './styles.css?v=10',
-  './rain-garden.css?v=2',
+  './rain-garden.css?v=3',
   './tacochat.css?v=10',
   './rain-garden.js?v=1',
   './tacochat.js?v=25',
   './assets/tacocat-right.png',
+  './assets/garden-inspiration.webp',
   './assets/rain-garden-model.jpg',
   './assets/pwa-icon-192.png',
   './assets/pwa-icon-512.png'
